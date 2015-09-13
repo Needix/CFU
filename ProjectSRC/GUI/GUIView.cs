@@ -20,13 +20,24 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
         }
 
         private void RegisterCustomEvents() {
-            //TODO: Add custom events here
+            b_add.Click += _controller.AddAddon;
+            b_new.Click += _controller.NewAddon;
+            b_delete.Click += _controller.DelAddon;
+            b_sync_localServer.Click += _controller.SyncLocalServer;
+            b_sync_serverLocal.Click += _controller.SyncServerLocal;
+            b_checkStatus.Click += _controller.Check;
         }
 
         public void RegisterController(GUIController controller) { _controller = controller; }
 
         public void UpdateView(GUIModel model) {
-            //TODO: Add update code here (update gui components from model data)
+            tb_addonInfo_dirName.Text = model.DirectoryName;
+            tb_addonInfo_name.Text = model.AddonName;
+            tb_addonInfo_firstUploaded.Text = model.FirstUploaded;
+            tb_addonInfo_lastUpdate.Text = model.LastUpdated;
+
+            cbox_addonInfo_addons_root.SelectedIndex = (int)model.AType;
+            cbox_addonInfo_fastdl_workshop.SelectedIndex = (int) model.DLType;
         }
     }
 }

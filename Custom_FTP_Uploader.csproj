@@ -53,8 +53,12 @@
     <Compile Include="ProjectSRC\GUI\GUIView.Designer.cs">
       <DependentUpon>GUIView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProjectSRC\Model\Addon.cs" />
     <Compile Include="ProjectSRC\Model\GUIModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ProjectSRC\GUI\GUIView.resx">
+      <DependentUpon>GUIView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
