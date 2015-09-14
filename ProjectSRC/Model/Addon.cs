@@ -7,19 +7,20 @@
 //     Twitter: https://twitter.com/NeedDragon
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Model {
     public class Addon {
         public enum DownloadType {
-            NotSelected,
-            FastDL,
-            Workshop,
+            NotSelected = 0,
+            FastDL = 1,
+            Workshop = 2,
         }
 
         public enum AddonType {
-            NotSelected,
-            Addons,
-            Root,
+            NotSelected = 0,
+            Addons = 1,
+            Root = 2,
         }
 
         public String Name { get; set; }
@@ -38,6 +39,13 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
             LastUpdated = lastUpdated;
             AType = aType;
             DLType = dlType;
+
+            if("".Equals(name)) throw new ArgumentException("Addon name is not allowed to be empty!");
+            if(new Regex("^[a-z0-9_]*$").IsMatch(DirectoryName)) throw new ArgumentException("Directory name has some invalid characters!");
+        }
+
+        public override string ToString() {
+            return string.Format("{0}", Name);
         }
     }
 }
