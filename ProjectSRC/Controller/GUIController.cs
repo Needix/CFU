@@ -79,6 +79,27 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
                 case "tb_addonInfo_lastUpdate":
                     Model.CurrentLastUpdated = tbText;
                     break;
+
+                case "tb_settings_fastDL_ipPort":
+                    Model.SettingsModel.FastDL.IP_Port = tbText;
+                    break;
+                case "tb_settings_fastDL_username":
+                    Model.SettingsModel.FastDL.Username = tbText;
+                    break;
+                case "tb_settings_fastDL_password":
+                    Model.SettingsModel.FastDL.SetEncryptedPassword(tbText);
+                    break;
+
+                case "tb_settings_server_ipPort":
+                    Model.SettingsModel.Server.IP_Port = tbText;
+                    break;
+                case "tb_settings_server_username":
+                    Model.SettingsModel.Server.Username = tbText;
+                    break;
+                case "tb_settings_server_password":
+                    Model.SettingsModel.Server.SetEncryptedPassword(tbText);
+                    break;
+
                 default:
                     Debug.WriteLine("WARNING: Could not find model variable for textbox: "+tb.Name);
                     break;

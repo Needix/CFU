@@ -13,17 +13,11 @@ using System.Xml.Serialization;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Model {
     [XmlRoot("GUIModel")]
-    //TODO: Add all classes that need to be included here
-    //[XmlInclude(typeof(SomeModel)), XmlInclude(typeof(SomeClass))] // include classes, that are serialized here
+    [XmlInclude(typeof(SettingsModel)), XmlInclude(typeof(ServerModel)), ] 
     public class GUIModel {
-        //TODO: Add fields that needs to be serialized
-        //Add fields normally like so:
-        //  public int SomeInt { get; set; }
-
         [XmlArray("Addons")]
         [XmlArrayItem("Addon")]
         public List<Addon> AddonList { get; set; }
-
         public int SelectedAddonIndex { get; set; }
 
         public String CurrentAddonName { get; set; }
@@ -33,7 +27,11 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
         public Addon.AddonType CurrentAddonType { get; set; }
         public Addon.DownloadType CurrentDLType { get; set; }
 
+        public SettingsModel SettingsModel { get; set; }
+
         public GUIModel() {
+            SettingsModel = new SettingsModel();
+
             AddonList = new List<Addon>();
             SelectedAddonIndex = -1;
 

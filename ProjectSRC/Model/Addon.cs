@@ -30,7 +30,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
         public AddonType AType { get; set; }
         public DownloadType DLType { get; set; }
 
-        public Addon() : this("", "", "", "", AddonType.NotSelected, DownloadType.NotSelected) { }
+        public Addon() : this("Serialized Addon Name", "Serialized Directory Name", "Serialized First Uploaded", "Serialized Last Updated", AddonType.NotSelected, DownloadType.NotSelected) { }
 
         public Addon(String name, String dirName, String firstUploaded, String lastUpdated, AddonType aType, DownloadType dlType) {
             Name = name;

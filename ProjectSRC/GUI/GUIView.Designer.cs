@@ -25,6 +25,8 @@
         private void InitializeComponent() {
             this.splitContainer_main_addons_buttons = new System.Windows.Forms.SplitContainer();
             this.splitContainer_addons_list_info = new System.Windows.Forms.SplitContainer();
+            this.listView_addonList = new System.Windows.Forms.ListView();
+            this.columnHeader_main = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label6 = new System.Windows.Forms.Label();
             this.cbox_addonInfo_fastdl_workshop = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -43,11 +45,27 @@
             this.b_delete = new System.Windows.Forms.Button();
             this.b_edit = new System.Windows.Forms.Button();
             this.b_new = new System.Windows.Forms.Button();
-            this.listView_addonList = new System.Windows.Forms.ListView();
-            this.columnHeader_main = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.b_save = new System.Windows.Forms.Button();
-            this.b_load = new System.Windows.Forms.Button();
-            this.b_resetToDefault = new System.Windows.Forms.Button();
+            this.tabControl_main = new System.Windows.Forms.TabControl();
+            this.page_main_addonInfo = new System.Windows.Forms.TabPage();
+            this.page_main_settings = new System.Windows.Forms.TabPage();
+            this.groupBox_settings_saveLoad = new System.Windows.Forms.GroupBox();
+            this.b_settings_resetToDefault = new System.Windows.Forms.Button();
+            this.b_settings_load = new System.Windows.Forms.Button();
+            this.b_settings_save = new System.Windows.Forms.Button();
+            this.groupBox_settings_server = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tb_settings_server_password = new System.Windows.Forms.TextBox();
+            this.tb_settings_server_username = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.tb_settings_server_ipPort = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox_settings_fastDL = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tb_settings_fastDL_password = new System.Windows.Forms.TextBox();
+            this.tb_settings_fastDL_username = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tb_settings_fastDL_ipPort = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_addons_buttons)).BeginInit();
             this.splitContainer_main_addons_buttons.Panel1.SuspendLayout();
             this.splitContainer_main_addons_buttons.Panel2.SuspendLayout();
@@ -56,6 +74,12 @@
             this.splitContainer_addons_list_info.Panel1.SuspendLayout();
             this.splitContainer_addons_list_info.Panel2.SuspendLayout();
             this.splitContainer_addons_list_info.SuspendLayout();
+            this.tabControl_main.SuspendLayout();
+            this.page_main_addonInfo.SuspendLayout();
+            this.page_main_settings.SuspendLayout();
+            this.groupBox_settings_saveLoad.SuspendLayout();
+            this.groupBox_settings_server.SuspendLayout();
+            this.groupBox_settings_fastDL.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer_main_addons_buttons
@@ -63,7 +87,7 @@
             this.splitContainer_main_addons_buttons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer_main_addons_buttons.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer_main_addons_buttons.IsSplitterFixed = true;
-            this.splitContainer_main_addons_buttons.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer_main_addons_buttons.Location = new System.Drawing.Point(3, 3);
             this.splitContainer_main_addons_buttons.Name = "splitContainer_main_addons_buttons";
             this.splitContainer_main_addons_buttons.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -73,17 +97,14 @@
             // 
             // splitContainer_main_addons_buttons.Panel2
             // 
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_resetToDefault);
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_load);
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_save);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_checkStatus);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_serverLocal);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_localServer);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_delete);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_edit);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_new);
-            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(619, 446);
-            this.splitContainer_main_addons_buttons.SplitterDistance = 345;
+            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(605, 414);
+            this.splitContainer_main_addons_buttons.SplitterDistance = 350;
             this.splitContainer_main_addons_buttons.TabIndex = 0;
             // 
             // splitContainer_addons_list_info
@@ -110,9 +131,28 @@
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label2);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_name);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label1);
-            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(619, 345);
-            this.splitContainer_addons_list_info.SplitterDistance = 205;
+            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(605, 350);
+            this.splitContainer_addons_list_info.SplitterDistance = 201;
             this.splitContainer_addons_list_info.TabIndex = 0;
+            // 
+            // listView_addonList
+            // 
+            this.listView_addonList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_main});
+            this.listView_addonList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView_addonList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listView_addonList.Location = new System.Drawing.Point(0, 0);
+            this.listView_addonList.MultiSelect = false;
+            this.listView_addonList.Name = "listView_addonList";
+            this.listView_addonList.Size = new System.Drawing.Size(201, 350);
+            this.listView_addonList.TabIndex = 0;
+            this.listView_addonList.UseCompatibleStateImageBehavior = false;
+            this.listView_addonList.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader_main
+            // 
+            this.columnHeader_main.Text = "";
+            this.columnHeader_main.Width = 180;
             // 
             // label6
             // 
@@ -134,7 +174,7 @@
             "Workshop"});
             this.cbox_addonInfo_fastdl_workshop.Location = new System.Drawing.Point(121, 137);
             this.cbox_addonInfo_fastdl_workshop.Name = "cbox_addonInfo_fastdl_workshop";
-            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(278, 21);
+            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(268, 21);
             this.cbox_addonInfo_fastdl_workshop.TabIndex = 10;
             // 
             // label5
@@ -157,7 +197,7 @@
             "Root"});
             this.cbox_addonInfo_addons_root.Location = new System.Drawing.Point(121, 110);
             this.cbox_addonInfo_addons_root.Name = "cbox_addonInfo_addons_root";
-            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(278, 21);
+            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(268, 21);
             this.cbox_addonInfo_addons_root.TabIndex = 8;
             // 
             // label4
@@ -175,7 +215,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_lastUpdate.Location = new System.Drawing.Point(121, 84);
             this.tb_addonInfo_lastUpdate.Name = "tb_addonInfo_lastUpdate";
-            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(278, 20);
+            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(268, 20);
             this.tb_addonInfo_lastUpdate.TabIndex = 6;
             // 
             // tb_addonInfo_firstUploaded
@@ -184,7 +224,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_firstUploaded.Location = new System.Drawing.Point(121, 58);
             this.tb_addonInfo_firstUploaded.Name = "tb_addonInfo_firstUploaded";
-            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(278, 20);
+            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(268, 20);
             this.tb_addonInfo_firstUploaded.TabIndex = 5;
             // 
             // label3
@@ -202,7 +242,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_dirName.Location = new System.Drawing.Point(121, 32);
             this.tb_addonInfo_dirName.Name = "tb_addonInfo_dirName";
-            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(278, 20);
+            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(268, 20);
             this.tb_addonInfo_dirName.TabIndex = 3;
             // 
             // label2
@@ -220,7 +260,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_name.Location = new System.Drawing.Point(121, 6);
             this.tb_addonInfo_name.Name = "tb_addonInfo_name";
-            this.tb_addonInfo_name.Size = new System.Drawing.Size(278, 20);
+            this.tb_addonInfo_name.Size = new System.Drawing.Size(268, 20);
             this.tb_addonInfo_name.TabIndex = 1;
             // 
             // label1
@@ -286,58 +326,223 @@
             this.b_new.Text = "New";
             this.b_new.UseVisualStyleBackColor = true;
             // 
-            // listView_addonList
+            // tabControl_main
             // 
-            this.listView_addonList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_main});
-            this.listView_addonList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView_addonList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.listView_addonList.Location = new System.Drawing.Point(0, 0);
-            this.listView_addonList.MultiSelect = false;
-            this.listView_addonList.Name = "listView_addonList";
-            this.listView_addonList.Size = new System.Drawing.Size(205, 345);
-            this.listView_addonList.TabIndex = 0;
-            this.listView_addonList.UseCompatibleStateImageBehavior = false;
-            this.listView_addonList.View = System.Windows.Forms.View.Details;
+            this.tabControl_main.Controls.Add(this.page_main_addonInfo);
+            this.tabControl_main.Controls.Add(this.page_main_settings);
+            this.tabControl_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_main.Location = new System.Drawing.Point(0, 0);
+            this.tabControl_main.Name = "tabControl_main";
+            this.tabControl_main.SelectedIndex = 0;
+            this.tabControl_main.Size = new System.Drawing.Size(619, 446);
+            this.tabControl_main.TabIndex = 1;
             // 
-            // columnHeader_main
+            // page_main_addonInfo
             // 
-            this.columnHeader_main.Text = "";
-            this.columnHeader_main.Width = 201;
+            this.page_main_addonInfo.Controls.Add(this.splitContainer_main_addons_buttons);
+            this.page_main_addonInfo.Location = new System.Drawing.Point(4, 22);
+            this.page_main_addonInfo.Name = "page_main_addonInfo";
+            this.page_main_addonInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.page_main_addonInfo.Size = new System.Drawing.Size(611, 420);
+            this.page_main_addonInfo.TabIndex = 0;
+            this.page_main_addonInfo.Text = "Addons Info";
+            this.page_main_addonInfo.UseVisualStyleBackColor = true;
             // 
-            // b_save
+            // page_main_settings
             // 
-            this.b_save.Location = new System.Drawing.Point(12, 61);
-            this.b_save.Name = "b_save";
-            this.b_save.Size = new System.Drawing.Size(75, 23);
-            this.b_save.TabIndex = 6;
-            this.b_save.Text = "Save";
-            this.b_save.UseVisualStyleBackColor = true;
+            this.page_main_settings.Controls.Add(this.groupBox_settings_saveLoad);
+            this.page_main_settings.Controls.Add(this.groupBox_settings_server);
+            this.page_main_settings.Controls.Add(this.groupBox_settings_fastDL);
+            this.page_main_settings.Location = new System.Drawing.Point(4, 22);
+            this.page_main_settings.Name = "page_main_settings";
+            this.page_main_settings.Padding = new System.Windows.Forms.Padding(3);
+            this.page_main_settings.Size = new System.Drawing.Size(611, 420);
+            this.page_main_settings.TabIndex = 1;
+            this.page_main_settings.Text = "Settings";
+            this.page_main_settings.UseVisualStyleBackColor = true;
             // 
-            // b_load
+            // groupBox_settings_saveLoad
             // 
-            this.b_load.Location = new System.Drawing.Point(93, 61);
-            this.b_load.Name = "b_load";
-            this.b_load.Size = new System.Drawing.Size(75, 23);
-            this.b_load.TabIndex = 7;
-            this.b_load.Text = "Load";
-            this.b_load.UseVisualStyleBackColor = true;
+            this.groupBox_settings_saveLoad.Controls.Add(this.b_settings_resetToDefault);
+            this.groupBox_settings_saveLoad.Controls.Add(this.b_settings_load);
+            this.groupBox_settings_saveLoad.Controls.Add(this.b_settings_save);
+            this.groupBox_settings_saveLoad.Location = new System.Drawing.Point(8, 113);
+            this.groupBox_settings_saveLoad.MinimumSize = new System.Drawing.Size(270, 55);
+            this.groupBox_settings_saveLoad.Name = "groupBox_settings_saveLoad";
+            this.groupBox_settings_saveLoad.Size = new System.Drawing.Size(270, 55);
+            this.groupBox_settings_saveLoad.TabIndex = 2;
+            this.groupBox_settings_saveLoad.TabStop = false;
+            this.groupBox_settings_saveLoad.Text = "Save/Load";
             // 
-            // b_resetToDefault
+            // b_settings_resetToDefault
             // 
-            this.b_resetToDefault.Location = new System.Drawing.Point(174, 61);
-            this.b_resetToDefault.Name = "b_resetToDefault";
-            this.b_resetToDefault.Size = new System.Drawing.Size(93, 23);
-            this.b_resetToDefault.TabIndex = 8;
-            this.b_resetToDefault.Text = "Reset to default";
-            this.b_resetToDefault.UseVisualStyleBackColor = true;
+            this.b_settings_resetToDefault.Location = new System.Drawing.Point(168, 19);
+            this.b_settings_resetToDefault.Name = "b_settings_resetToDefault";
+            this.b_settings_resetToDefault.Size = new System.Drawing.Size(93, 23);
+            this.b_settings_resetToDefault.TabIndex = 11;
+            this.b_settings_resetToDefault.Text = "Reset to default";
+            this.b_settings_resetToDefault.UseVisualStyleBackColor = true;
+            // 
+            // b_settings_load
+            // 
+            this.b_settings_load.Location = new System.Drawing.Point(87, 19);
+            this.b_settings_load.Name = "b_settings_load";
+            this.b_settings_load.Size = new System.Drawing.Size(75, 23);
+            this.b_settings_load.TabIndex = 10;
+            this.b_settings_load.Text = "Load";
+            this.b_settings_load.UseVisualStyleBackColor = true;
+            // 
+            // b_settings_save
+            // 
+            this.b_settings_save.Location = new System.Drawing.Point(6, 19);
+            this.b_settings_save.Name = "b_settings_save";
+            this.b_settings_save.Size = new System.Drawing.Size(75, 23);
+            this.b_settings_save.TabIndex = 9;
+            this.b_settings_save.Text = "Save";
+            this.b_settings_save.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_settings_server
+            // 
+            this.groupBox_settings_server.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox_settings_server.Controls.Add(this.label11);
+            this.groupBox_settings_server.Controls.Add(this.tb_settings_server_password);
+            this.groupBox_settings_server.Controls.Add(this.tb_settings_server_username);
+            this.groupBox_settings_server.Controls.Add(this.label12);
+            this.groupBox_settings_server.Controls.Add(this.tb_settings_server_ipPort);
+            this.groupBox_settings_server.Controls.Add(this.label8);
+            this.groupBox_settings_server.Location = new System.Drawing.Point(314, 6);
+            this.groupBox_settings_server.Name = "groupBox_settings_server";
+            this.groupBox_settings_server.Size = new System.Drawing.Size(289, 101);
+            this.groupBox_settings_server.TabIndex = 1;
+            this.groupBox_settings_server.TabStop = false;
+            this.groupBox_settings_server.Text = "Server";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 68);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 13);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Password:";
+            // 
+            // tb_settings_server_password
+            // 
+            this.tb_settings_server_password.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_settings_server_password.Location = new System.Drawing.Point(73, 65);
+            this.tb_settings_server_password.Name = "tb_settings_server_password";
+            this.tb_settings_server_password.PasswordChar = '*';
+            this.tb_settings_server_password.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_password.TabIndex = 8;
+            // 
+            // tb_settings_server_username
+            // 
+            this.tb_settings_server_username.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_settings_server_username.Location = new System.Drawing.Point(73, 39);
+            this.tb_settings_server_username.Name = "tb_settings_server_username";
+            this.tb_settings_server_username.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_username.TabIndex = 7;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 42);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(61, 13);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Username: ";
+            // 
+            // tb_settings_server_ipPort
+            // 
+            this.tb_settings_server_ipPort.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_settings_server_ipPort.Location = new System.Drawing.Point(73, 13);
+            this.tb_settings_server_ipPort.Name = "tb_settings_server_ipPort";
+            this.tb_settings_server_ipPort.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_ipPort.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(39, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "IP:Port";
+            // 
+            // groupBox_settings_fastDL
+            // 
+            this.groupBox_settings_fastDL.Controls.Add(this.label10);
+            this.groupBox_settings_fastDL.Controls.Add(this.tb_settings_fastDL_password);
+            this.groupBox_settings_fastDL.Controls.Add(this.tb_settings_fastDL_username);
+            this.groupBox_settings_fastDL.Controls.Add(this.label9);
+            this.groupBox_settings_fastDL.Controls.Add(this.tb_settings_fastDL_ipPort);
+            this.groupBox_settings_fastDL.Controls.Add(this.label7);
+            this.groupBox_settings_fastDL.Location = new System.Drawing.Point(8, 6);
+            this.groupBox_settings_fastDL.Name = "groupBox_settings_fastDL";
+            this.groupBox_settings_fastDL.Size = new System.Drawing.Size(300, 101);
+            this.groupBox_settings_fastDL.TabIndex = 0;
+            this.groupBox_settings_fastDL.TabStop = false;
+            this.groupBox_settings_fastDL.Text = "FastDL";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 68);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 13);
+            this.label10.TabIndex = 5;
+            this.label10.Text = "Password:";
+            // 
+            // tb_settings_fastDL_password
+            // 
+            this.tb_settings_fastDL_password.Location = new System.Drawing.Point(70, 65);
+            this.tb_settings_fastDL_password.Name = "tb_settings_fastDL_password";
+            this.tb_settings_fastDL_password.PasswordChar = '*';
+            this.tb_settings_fastDL_password.Size = new System.Drawing.Size(224, 20);
+            this.tb_settings_fastDL_password.TabIndex = 4;
+            // 
+            // tb_settings_fastDL_username
+            // 
+            this.tb_settings_fastDL_username.Location = new System.Drawing.Point(70, 39);
+            this.tb_settings_fastDL_username.Name = "tb_settings_fastDL_username";
+            this.tb_settings_fastDL_username.Size = new System.Drawing.Size(224, 20);
+            this.tb_settings_fastDL_username.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 42);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(61, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Username: ";
+            // 
+            // tb_settings_fastDL_ipPort
+            // 
+            this.tb_settings_fastDL_ipPort.Location = new System.Drawing.Point(70, 13);
+            this.tb_settings_fastDL_ipPort.Name = "tb_settings_fastDL_ipPort";
+            this.tb_settings_fastDL_ipPort.Size = new System.Drawing.Size(224, 20);
+            this.tb_settings_fastDL_ipPort.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "IP:Port";
             // 
             // GUIView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(619, 446);
-            this.Controls.Add(this.splitContainer_main_addons_buttons);
+            this.Controls.Add(this.tabControl_main);
             this.MinimumSize = new System.Drawing.Size(635, 485);
             this.Name = "GUIView";
             this.Text = "GUIView";
@@ -350,6 +555,14 @@
             this.splitContainer_addons_list_info.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_addons_list_info)).EndInit();
             this.splitContainer_addons_list_info.ResumeLayout(false);
+            this.tabControl_main.ResumeLayout(false);
+            this.page_main_addonInfo.ResumeLayout(false);
+            this.page_main_settings.ResumeLayout(false);
+            this.groupBox_settings_saveLoad.ResumeLayout(false);
+            this.groupBox_settings_server.ResumeLayout(false);
+            this.groupBox_settings_server.PerformLayout();
+            this.groupBox_settings_fastDL.ResumeLayout(false);
+            this.groupBox_settings_fastDL.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -378,8 +591,26 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListView listView_addonList;
         private System.Windows.Forms.ColumnHeader columnHeader_main;
-        private System.Windows.Forms.Button b_resetToDefault;
-        private System.Windows.Forms.Button b_load;
-        private System.Windows.Forms.Button b_save;
+        private System.Windows.Forms.TabControl tabControl_main;
+        private System.Windows.Forms.TabPage page_main_addonInfo;
+        private System.Windows.Forms.TabPage page_main_settings;
+        private System.Windows.Forms.GroupBox groupBox_settings_saveLoad;
+        private System.Windows.Forms.GroupBox groupBox_settings_server;
+        private System.Windows.Forms.GroupBox groupBox_settings_fastDL;
+        private System.Windows.Forms.Button b_settings_resetToDefault;
+        private System.Windows.Forms.Button b_settings_load;
+        private System.Windows.Forms.Button b_settings_save;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tb_settings_server_ipPort;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox tb_settings_fastDL_ipPort;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tb_settings_fastDL_password;
+        private System.Windows.Forms.TextBox tb_settings_fastDL_username;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox tb_settings_server_password;
+        private System.Windows.Forms.TextBox tb_settings_server_username;
+        private System.Windows.Forms.Label label12;
     }
 }
