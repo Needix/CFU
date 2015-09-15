@@ -12,13 +12,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Custom_FTP_Uploader.ProjectSRC.GUI;
 using Custom_FTP_Uploader.ProjectSRC.Model;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Controller {
-    public class GUIController { //INFO: 
+    public partial class GUIController {
+        private const string GMOD_BASE = "R:\\Other\\TestFTPServer\\Local_GMOD\\";
+        private const string GMOD_SUB_FOLDER = "serverdata/garrysmod/";
+        private const string GMOD_ROOT = GMOD_BASE + GMOD_SUB_FOLDER;
+
         private GUIModel _model;
         public GUIModel Model {
             get { return _model; }
@@ -41,76 +46,106 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
             View.UpdateView(Model);
         }
 
-        public void NewAddon(object sender, EventArgs e) {
-            Addon addon = Model.CreateAddonFromModel();
-            if (addon == null) return;
-            Model.AddonList.Add(addon);
-            View.UpdateAddonList(Model);
-        }
-        public void EditAddon(object sender, EventArgs e) {
-            if (Model.SelectedAddonIndex == -1 || Model.SelectedAddonIndex >= Model.AddonList.Count) return;
-            Model.AddonList[Model.SelectedAddonIndex] = Model.CreateAddonFromModel();
-            View.UpdateAddonList(Model);
-        }
-        public void DelAddon(object sender, EventArgs e) {
-            if(Model.SelectedAddonIndex == -1 || Model.SelectedAddonIndex >= Model.AddonList.Count) return;
-            Model.AddonList.RemoveAt(Model.SelectedAddonIndex);
-            View.UpdateAddonList(Model);
-        }
-
         //INFO: dreistetraitor/programm.exe
         //INFO: dreistetraitor/serverdata/garrysmod/addons
         public void SyncLocalServer(object sender, EventArgs e) {
-            List<String> list = new List<string>();
-            string garrysModBase = "R:\\Other\\TestFTPServer\\serverdata\\garrysmod"; //TODO: Transform into const/relative path on release
-            IterateFolderRekursive(garrysModBase, list, true, true);
-
-            List<String> relPaths = new List<String>();
-            List<String> filesAndFolder = new List<string>();
-            relPaths.Add("");
-            FTP_ListFAFs(relPaths, filesAndFolder, true, true);
+            
         }
         public void SyncServerLocal(object sender, EventArgs e) {
-            List<String> list = new List<string>();
-            string garrysModBase = "R:\\Other\\TestFTPServer\\serverdata\\garrysmod"; //TODO: Transform into const/relative path on release
-            IterateFolderRekursive(garrysModBase, list, true, true);
+            List<String> rootFolders = new List<string>();
+            List<String> rootFiles = new List<string>();
+            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
+            Client_ListFAFs(GMOD_ROOT, rootFolders, rootFiles, true, true);
 
-            List<String> relPaths = new List<String>();
-            List<String> filesAndFolder = new List<string>();
-            relPaths.Add("");
-            FTP_ListFAFs(relPaths, filesAndFolder, true, true);
-        }
+            List<String> remoteFolders = new List<string>();
+            List<String> remoteFiles = new List<string>();
+            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
+            FTP_ListFAFs(null, remoteFolders, remoteFiles, true, true);
 
-        private void IterateFolderRekursive(String baseFolder, List<String> list, bool recFiles, bool recFolder) {
-            if (!recFolder && !recFiles) return;
-            String[] folders = Directory.GetDirectories(baseFolder);
-            String[] files = Directory.GetFiles(baseFolder);
-            if (recFiles) {
-                foreach (string file in files) {
-                    if (File.Exists(file)) list.Add(file);
-                }
-            }
-
-            if (recFolder) {
-                foreach (string folder in folders) {
-                    if (Directory.Exists(folder)) {
-                        list.Add(folder);
-                        IterateFolderRekursive(folder, list, recFiles, true);
+            View.AddInfo("Starting to compare root folder with remote folder...");
+            WebClient client = CreateServerWebClient();
+            foreach(string remoteFolder in remoteFolders) {
+                bool found = false;
+                foreach (string rootFolder in rootFolders) {
+                    if (rootFolder.Equals(remoteFolder)) {
+                        found = true;
+                        break;
                     }
                 }
+                if (!found) {
+                    string newDir = GMOD_ROOT + remoteFolder;
+                    View.AddInfo("Creating directory: "+newDir);
+                    Directory.CreateDirectory(newDir);
+                }
             }
+
+            View.AddInfo("Starting to compare root files with remote files...");
+            foreach(string remoteFile in remoteFiles) {
+                bool found = false;
+                foreach(string rootFile in rootFiles) {
+                    if(rootFile.Equals(remoteFile)) {
+                        found = true; //TODO: Not only check if file exists, but only if same/equals
+                        break;
+                    }
+                }
+                if(!found) {
+                    string newFile = GMOD_ROOT + remoteFile;
+                    View.AddInfo("Downloading file: \""+remoteFile+"\" and saving in location \""+newFile+"\"");
+                    client.DownloadFile(GetServerURI(remoteFile), newFile);
+                }
+            }
+            client.Dispose();
         }
 
         public void Check(object sender, EventArgs e) {
-            List<String> relPaths = new List<String>();
-            List<String> filesAndFolder = new List<string>();
-            relPaths.Add("");
-            FTP_ListFAFs(relPaths, filesAndFolder, true, true);
-
             Debug.WriteLine("Finished reading...");
         }
 
-        private void FTP_ListFAFs(List<String> relPaths, List<String> filesAndFolder, bool recFiles, bool recFolder) {
+        private List<String> CompareVersions(bool compareFiles, bool compareFolder) {
+            if (!compareFiles && !compareFolder) return null;
+            List<String> rootFolders = new List<string>();
+            List<String> rootFiles = new List<string>();
+            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
+            Client_ListFAFs(GMOD_ROOT, rootFolders, rootFiles, true, true);
+
+            List<String> remoteFolders = new List<string>();
+            List<String> remoteFiles = new List<string>();
+            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
+            FTP_ListFAFs(null, remoteFolders, remoteFiles, true, true);
+
+            return null;
+        }
+
+        private void Client_ListFAFs(String baseFolder, List<String> folderList, List<String> fileList, bool recFiles, bool recFolder) {
+            if(!recFolder && !recFiles) return;
+            String[] folders = Directory.GetDirectories(baseFolder);
+            String[] files = Directory.GetFiles(baseFolder);
+            if(recFiles) {
+                foreach(string file in files) {
+                    string relative = file.Substring(file.IndexOf(GMOD_SUB_FOLDER) + GMOD_SUB_FOLDER.Length);
+                    relative = relative.Replace('\\', '/');
+                    if(File.Exists(file)) fileList.Add(relative);
+                }
+            }
+
+            foreach(string folder in folders) {
+                if(Directory.Exists(folder)) {
+                    if(recFolder) {
+                        if(folder.Contains(".svn") || folder.Contains(".git")) continue; //Exclude git and svn dirs
+                        string relative = folder.Substring(folder.IndexOf(GMOD_SUB_FOLDER) + GMOD_SUB_FOLDER.Length);
+                        relative = relative.Replace('\\', '/');
+                        folderList.Add(relative);
+                    }
+                    Client_ListFAFs(folder, folderList, fileList, recFiles, true);
+                }
+            }
+        }
+
+        private void FTP_ListFAFs(List<String> relPaths, List<String> folder, List<String> files, bool recFiles, bool recFolder) {
+            if (relPaths == null) {
+                relPaths = new List<string>();
+                relPaths.Add("");
+            }
             foreach (string relPath in relPaths) {
                 WebRequest wr = CreateServerWebRequest(relPath);
                 if (wr == null) {
@@ -139,114 +174,20 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
                     string lastModifiedDate = groups[4].ToString();
                     string lastModifiedTime = groups[5].ToString();
                     string name = groups[6].ToString();
-                    string fullPath = relPath + "/" + name + "/";
+                    string fullPath = relPath + "/" + name;
+                    if("".Equals(relPath)) fullPath = name;
 
-                    if(recFiles && file) filesAndFolder.Add(fullPath);
-                    if(recFolder && !file) filesAndFolder.Add(fullPath);
+                    if(!file && (name.Contains(".svn") || name.Contains(".git"))) continue; //Exclude git and svn dirs
+
+                    if(recFiles && file) files.Add(fullPath);
+                    if(recFolder && !file) folder.Add(fullPath);
                     if(!file) dirList.Add(fullPath);
                 }
                 response1.Close();
 
-                FTP_ListFAFs(dirList, filesAndFolder, recFiles, recFolder);
+                FTP_ListFAFs(dirList, folder, files, recFiles, recFolder);
             }
         }
 
-        private FtpWebRequest CreateServerWebRequest(String relPath) {
-            String ip_port = Model.SettingsModel.FastDL.IP_Port;
-            String username = Model.SettingsModel.FastDL.Username;
-            String pw = Model.SettingsModel.FastDL.GetDecryptedPassword();
-            return CreateWebRequest(ip_port, username, pw, "serverdata/garrysmod/"+relPath);
-        }
-        private FtpWebRequest CreateFastDLWebRequest(String relPath) {
-            String ip_port = Model.SettingsModel.Server.IP_Port;
-            String username = Model.SettingsModel.Server.Username;
-            String pw = Model.SettingsModel.Server.GetDecryptedPassword();
-            return CreateWebRequest(ip_port, username, pw, relPath);
-        }
-        private FtpWebRequest CreateWebRequest(String ip_port, String username, String pw, String relativePath = "") {
-            String[] split = ip_port.Split(':');
-            if(split.Length>2) return null;
-            try {
-                String ip = split[0];
-                int port = 21;
-                if(split.Length==2) port = Convert.ToInt32(split[1]);
-
-                string webRequestHost = "ftp://" + ip + ":" + port + "/" + relativePath;
-                Debug.WriteLine("Creating web request: "+webRequestHost);
-                FtpWebRequest ftp = (FtpWebRequest) WebRequest.Create(webRequestHost);
-
-                if (!"".Equals(username))   ftp.Credentials = new NetworkCredential(username, pw);
-
-                return ftp;
-            } catch (FormatException) {
-                Debug.WriteLine("ERROR: Format exception creating web request for: "+ip_port+"/"+relativePath+" with username/pw "+username+"/"+pw);
-                return null;
-            }
-        }
-
-        public void TB_TextChanged(object sender, EventArgs e) {
-            TextBox tb = (TextBox)sender;
-            String tbText = tb.Text;
-            switch(tb.Name) {
-                case "tb_addonInfo_name":
-                    Model.CurrentAddonName = tbText;
-                    break;
-                case "tb_addonInfo_dirName":
-                    Model.CurrentDirectoryName = tbText;
-                    break;
-                case "tb_addonInfo_firstUploaded":
-                    Model.CurrentFirstUploaded = tbText;
-                    break;
-                case "tb_addonInfo_lastUpdate":
-                    Model.CurrentLastUpdated = tbText;
-                    break;
-
-                case "tb_settings_fastDL_ipPort":
-                    Model.SettingsModel.FastDL.IP_Port = tbText;
-                    break;
-                case "tb_settings_fastDL_username":
-                    Model.SettingsModel.FastDL.Username = tbText;
-                    break;
-                case "tb_settings_fastDL_password":
-                    Model.SettingsModel.FastDL.SetEncryptedPassword(tbText);
-                    break;
-
-                case "tb_settings_server_ipPort":
-                    Model.SettingsModel.Server.IP_Port = tbText;
-                    break;
-                case "tb_settings_server_username":
-                    Model.SettingsModel.Server.Username = tbText;
-                    break;
-                case "tb_settings_server_password":
-                    Model.SettingsModel.Server.SetEncryptedPassword(tbText);
-                    break;
-
-                default:
-                    Debug.WriteLine("WARNING: Could not find model variable for textbox: "+tb.Name);
-                    break;
-            }
-        }
-        public void ComboBox_TextChanged(object sender, EventArgs e) {
-            ComboBox cbox = (ComboBox)sender;
-            switch(cbox.Name) {
-                case "cbox_addonInfo_addons_root":
-                    Model.CurrentAddonType = (Addon.AddonType)cbox.SelectedIndex;
-                    break;
-                case "cbox_addonInfo_fastdl_workshop":
-                    Model.CurrentDLType = (Addon.DownloadType)cbox.SelectedIndex;
-                    break;
-                default:
-                    Debug.WriteLine("WARNING: Could not find model variable for combobox: "+cbox.Name);
-                    break;
-            }
-        }
-        public void ListView_SelectedIndexChanged(object sender, EventArgs e) {
-            ListView lw = (ListView)sender;
-            if(lw.SelectedIndices.Count == 0) Model.SelectedAddonIndex = -1;
-            else Model.SelectedAddonIndex = lw.SelectedIndices[0];
-
-            Model.UpdateVarsFromSelectedAddon();
-            View.UpdateAddonInfo(Model);
-        }
     }
 }

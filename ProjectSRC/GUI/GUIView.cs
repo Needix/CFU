@@ -47,6 +47,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             cbox_addonInfo_addons_root.SelectedIndexChanged += _controller.ComboBox_TextChanged;
             cbox_addonInfo_fastdl_workshop.SelectedIndexChanged += _controller.ComboBox_TextChanged;
 
+            checkBox_settings_enableLog.CheckedChanged += _controller.CheckBox_CheckChanged; //TODO: Make log invisible when disabled?
+
             listView_addonList.SelectedIndexChanged += _controller.ListView_SelectedIndexChanged;
         }
 

@@ -46,12 +46,20 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="ProjectSRC\Controller\GUIController.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIController.AddonEdit.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIController.Ftp.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIController.ModelUpdate.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIController.Settings.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIController.Sync.cs" />
     <Compile Include="ProjectSRC\Controller\Serializer.cs" />
     <Compile Include="ProjectSRC\GUI\GUIView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProjectSRC\GUI\GUIView.Designer.cs">
       <DependentUpon>GUIView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectSRC\GUI\GUIView.Log.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProjectSRC\Model\Addon.cs" />
     <Compile Include="ProjectSRC\Model\GUIModel.cs" />

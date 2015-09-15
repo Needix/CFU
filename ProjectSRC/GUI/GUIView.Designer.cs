@@ -66,6 +66,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tb_settings_fastDL_ipPort = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.splitContainer_main_log = new System.Windows.Forms.SplitContainer();
+            this.listView_main_log = new System.Windows.Forms.ListView();
+            this.columnHeader_main_log = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox_settings_enableLog = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_addons_buttons)).BeginInit();
             this.splitContainer_main_addons_buttons.Panel1.SuspendLayout();
             this.splitContainer_main_addons_buttons.Panel2.SuspendLayout();
@@ -80,6 +85,11 @@
             this.groupBox_settings_saveLoad.SuspendLayout();
             this.groupBox_settings_server.SuspendLayout();
             this.groupBox_settings_fastDL.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_log)).BeginInit();
+            this.splitContainer_main_log.Panel1.SuspendLayout();
+            this.splitContainer_main_log.Panel2.SuspendLayout();
+            this.splitContainer_main_log.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer_main_addons_buttons
@@ -103,8 +113,8 @@
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_delete);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_edit);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_new);
-            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(605, 414);
-            this.splitContainer_main_addons_buttons.SplitterDistance = 350;
+            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(605, 300);
+            this.splitContainer_main_addons_buttons.SplitterDistance = 236;
             this.splitContainer_main_addons_buttons.TabIndex = 0;
             // 
             // splitContainer_addons_list_info
@@ -131,7 +141,7 @@
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label2);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_name);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label1);
-            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(605, 350);
+            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(605, 236);
             this.splitContainer_addons_list_info.SplitterDistance = 201;
             this.splitContainer_addons_list_info.TabIndex = 0;
             // 
@@ -144,7 +154,7 @@
             this.listView_addonList.Location = new System.Drawing.Point(0, 0);
             this.listView_addonList.MultiSelect = false;
             this.listView_addonList.Name = "listView_addonList";
-            this.listView_addonList.Size = new System.Drawing.Size(201, 350);
+            this.listView_addonList.Size = new System.Drawing.Size(201, 236);
             this.listView_addonList.TabIndex = 0;
             this.listView_addonList.UseCompatibleStateImageBehavior = false;
             this.listView_addonList.View = System.Windows.Forms.View.Details;
@@ -334,7 +344,7 @@
             this.tabControl_main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_main.Name = "tabControl_main";
             this.tabControl_main.SelectedIndex = 0;
-            this.tabControl_main.Size = new System.Drawing.Size(619, 446);
+            this.tabControl_main.Size = new System.Drawing.Size(619, 332);
             this.tabControl_main.TabIndex = 1;
             // 
             // page_main_addonInfo
@@ -343,20 +353,21 @@
             this.page_main_addonInfo.Location = new System.Drawing.Point(4, 22);
             this.page_main_addonInfo.Name = "page_main_addonInfo";
             this.page_main_addonInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.page_main_addonInfo.Size = new System.Drawing.Size(611, 420);
+            this.page_main_addonInfo.Size = new System.Drawing.Size(611, 306);
             this.page_main_addonInfo.TabIndex = 0;
             this.page_main_addonInfo.Text = "Addons Info";
             this.page_main_addonInfo.UseVisualStyleBackColor = true;
             // 
             // page_main_settings
             // 
+            this.page_main_settings.Controls.Add(this.groupBox1);
             this.page_main_settings.Controls.Add(this.groupBox_settings_saveLoad);
             this.page_main_settings.Controls.Add(this.groupBox_settings_server);
             this.page_main_settings.Controls.Add(this.groupBox_settings_fastDL);
             this.page_main_settings.Location = new System.Drawing.Point(4, 22);
             this.page_main_settings.Name = "page_main_settings";
             this.page_main_settings.Padding = new System.Windows.Forms.Padding(3);
-            this.page_main_settings.Size = new System.Drawing.Size(611, 420);
+            this.page_main_settings.Size = new System.Drawing.Size(611, 306);
             this.page_main_settings.TabIndex = 1;
             this.page_main_settings.Text = "Settings";
             this.page_main_settings.UseVisualStyleBackColor = true;
@@ -537,12 +548,70 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "IP:Port";
             // 
+            // splitContainer_main_log
+            // 
+            this.splitContainer_main_log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer_main_log.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer_main_log.Name = "splitContainer_main_log";
+            this.splitContainer_main_log.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer_main_log.Panel1
+            // 
+            this.splitContainer_main_log.Panel1.Controls.Add(this.tabControl_main);
+            // 
+            // splitContainer_main_log.Panel2
+            // 
+            this.splitContainer_main_log.Panel2.Controls.Add(this.listView_main_log);
+            this.splitContainer_main_log.Size = new System.Drawing.Size(619, 446);
+            this.splitContainer_main_log.SplitterDistance = 332;
+            this.splitContainer_main_log.TabIndex = 2;
+            // 
+            // listView_main_log
+            // 
+            this.listView_main_log.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader_main_log});
+            this.listView_main_log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView_main_log.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listView_main_log.Location = new System.Drawing.Point(0, 0);
+            this.listView_main_log.MultiSelect = false;
+            this.listView_main_log.Name = "listView_main_log";
+            this.listView_main_log.Size = new System.Drawing.Size(619, 110);
+            this.listView_main_log.TabIndex = 0;
+            this.listView_main_log.UseCompatibleStateImageBehavior = false;
+            this.listView_main_log.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader_main_log
+            // 
+            this.columnHeader_main_log.Width = 615;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.checkBox_settings_enableLog);
+            this.groupBox1.Location = new System.Drawing.Point(284, 113);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(319, 55);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Other";
+            // 
+            // checkBox_settings_enableLog
+            // 
+            this.checkBox_settings_enableLog.AutoSize = true;
+            this.checkBox_settings_enableLog.Checked = true;
+            this.checkBox_settings_enableLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_settings_enableLog.Location = new System.Drawing.Point(12, 19);
+            this.checkBox_settings_enableLog.Name = "checkBox_settings_enableLog";
+            this.checkBox_settings_enableLog.Size = new System.Drawing.Size(113, 17);
+            this.checkBox_settings_enableLog.TabIndex = 0;
+            this.checkBox_settings_enableLog.Text = "Enable log printing";
+            this.checkBox_settings_enableLog.UseVisualStyleBackColor = true;
+            // 
             // GUIView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(619, 446);
-            this.Controls.Add(this.tabControl_main);
+            this.Controls.Add(this.splitContainer_main_log);
             this.MinimumSize = new System.Drawing.Size(635, 485);
             this.Name = "GUIView";
             this.Text = "GUIView";
@@ -563,6 +632,12 @@
             this.groupBox_settings_server.PerformLayout();
             this.groupBox_settings_fastDL.ResumeLayout(false);
             this.groupBox_settings_fastDL.PerformLayout();
+            this.splitContainer_main_log.Panel1.ResumeLayout(false);
+            this.splitContainer_main_log.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_log)).EndInit();
+            this.splitContainer_main_log.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -612,5 +687,10 @@
         private System.Windows.Forms.TextBox tb_settings_server_password;
         private System.Windows.Forms.TextBox tb_settings_server_username;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.SplitContainer splitContainer_main_log;
+        private System.Windows.Forms.ListView listView_main_log;
+        private System.Windows.Forms.ColumnHeader columnHeader_main_log;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox checkBox_settings_enableLog;
     }
 }
