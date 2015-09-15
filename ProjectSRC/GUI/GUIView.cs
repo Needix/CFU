@@ -68,8 +68,6 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             tb_settings_server_ipPort.Text = model.Server.IP_Port;
             tb_settings_server_username.Text = model.Server.Username;
             tb_settings_server_password.Text = model.Server.GetDecryptedPassword();
-            Debug.WriteLine("PW1: "+tb_settings_fastDL_password.Text);
-            Debug.WriteLine("PW2: "+tb_settings_server_password.Text);
         }
 
         public void UpdateAddonInfo(GUIModel model) {

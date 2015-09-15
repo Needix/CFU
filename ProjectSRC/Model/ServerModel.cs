@@ -24,13 +24,17 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
             set { _password = value; }
         }
         public void SetEncryptedPassword(String pwPlain) { _password = EncryptPassword(pwPlain); }
-        public String GetDecryptedPassword() { return DecryptPassword(_password); }
 
-        public ServerModel() : this("Serialized IP:Port", "Serialized username", "Serialized password") { }
+        public String GetDecryptedPassword() {
+            if (_password == "") return null;
+            return DecryptPassword(_password);
+        }
+
+        public ServerModel() : this("", "", "") { }
         public ServerModel(String ipPort, String username, String pw) {
             IP_Port = ipPort;
             Username = username;
-            Password = pw;
+            SetEncryptedPassword(pw);
         }
 
         private String EncryptPassword(String pwPlain) {

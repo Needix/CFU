@@ -1,4 +1,6 @@
-﻿using System;
+﻿//From: http://stackoverflow.com/questions/2449263/aes-two-way-encryption-with-salting
+
+using System;
 using System.Data;
 using System.Security.Cryptography;
 using System.IO;
