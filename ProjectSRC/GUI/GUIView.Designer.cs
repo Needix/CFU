@@ -48,6 +48,8 @@
             this.tabControl_main = new System.Windows.Forms.TabControl();
             this.page_main_addonInfo = new System.Windows.Forms.TabPage();
             this.page_main_settings = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox_settings_enableLog = new System.Windows.Forms.CheckBox();
             this.groupBox_settings_saveLoad = new System.Windows.Forms.GroupBox();
             this.b_settings_resetToDefault = new System.Windows.Forms.Button();
             this.b_settings_load = new System.Windows.Forms.Button();
@@ -69,8 +71,6 @@
             this.splitContainer_main_log = new System.Windows.Forms.SplitContainer();
             this.listView_main_log = new System.Windows.Forms.ListView();
             this.columnHeader_main_log = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBox_settings_enableLog = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_addons_buttons)).BeginInit();
             this.splitContainer_main_addons_buttons.Panel1.SuspendLayout();
             this.splitContainer_main_addons_buttons.Panel2.SuspendLayout();
@@ -82,6 +82,7 @@
             this.tabControl_main.SuspendLayout();
             this.page_main_addonInfo.SuspendLayout();
             this.page_main_settings.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupBox_settings_saveLoad.SuspendLayout();
             this.groupBox_settings_server.SuspendLayout();
             this.groupBox_settings_fastDL.SuspendLayout();
@@ -89,7 +90,6 @@
             this.splitContainer_main_log.Panel1.SuspendLayout();
             this.splitContainer_main_log.Panel2.SuspendLayout();
             this.splitContainer_main_log.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer_main_addons_buttons
@@ -113,7 +113,7 @@
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_delete);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_edit);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_new);
-            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(605, 300);
+            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(1140, 300);
             this.splitContainer_main_addons_buttons.SplitterDistance = 236;
             this.splitContainer_main_addons_buttons.TabIndex = 0;
             // 
@@ -141,8 +141,8 @@
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label2);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_name);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label1);
-            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(605, 236);
-            this.splitContainer_addons_list_info.SplitterDistance = 201;
+            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(1140, 236);
+            this.splitContainer_addons_list_info.SplitterDistance = 378;
             this.splitContainer_addons_list_info.TabIndex = 0;
             // 
             // listView_addonList
@@ -154,7 +154,7 @@
             this.listView_addonList.Location = new System.Drawing.Point(0, 0);
             this.listView_addonList.MultiSelect = false;
             this.listView_addonList.Name = "listView_addonList";
-            this.listView_addonList.Size = new System.Drawing.Size(201, 236);
+            this.listView_addonList.Size = new System.Drawing.Size(378, 236);
             this.listView_addonList.TabIndex = 0;
             this.listView_addonList.UseCompatibleStateImageBehavior = false;
             this.listView_addonList.View = System.Windows.Forms.View.Details;
@@ -184,7 +184,7 @@
             "Workshop"});
             this.cbox_addonInfo_fastdl_workshop.Location = new System.Drawing.Point(121, 137);
             this.cbox_addonInfo_fastdl_workshop.Name = "cbox_addonInfo_fastdl_workshop";
-            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(268, 21);
+            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(626, 21);
             this.cbox_addonInfo_fastdl_workshop.TabIndex = 10;
             // 
             // label5
@@ -207,7 +207,7 @@
             "Root"});
             this.cbox_addonInfo_addons_root.Location = new System.Drawing.Point(121, 110);
             this.cbox_addonInfo_addons_root.Name = "cbox_addonInfo_addons_root";
-            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(268, 21);
+            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(626, 21);
             this.cbox_addonInfo_addons_root.TabIndex = 8;
             // 
             // label4
@@ -225,7 +225,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_lastUpdate.Location = new System.Drawing.Point(121, 84);
             this.tb_addonInfo_lastUpdate.Name = "tb_addonInfo_lastUpdate";
-            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(268, 20);
+            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(626, 20);
             this.tb_addonInfo_lastUpdate.TabIndex = 6;
             // 
             // tb_addonInfo_firstUploaded
@@ -234,7 +234,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_firstUploaded.Location = new System.Drawing.Point(121, 58);
             this.tb_addonInfo_firstUploaded.Name = "tb_addonInfo_firstUploaded";
-            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(268, 20);
+            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(626, 20);
             this.tb_addonInfo_firstUploaded.TabIndex = 5;
             // 
             // label3
@@ -252,7 +252,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_dirName.Location = new System.Drawing.Point(121, 32);
             this.tb_addonInfo_dirName.Name = "tb_addonInfo_dirName";
-            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(268, 20);
+            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(626, 20);
             this.tb_addonInfo_dirName.TabIndex = 3;
             // 
             // label2
@@ -270,7 +270,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_name.Location = new System.Drawing.Point(121, 6);
             this.tb_addonInfo_name.Name = "tb_addonInfo_name";
-            this.tb_addonInfo_name.Size = new System.Drawing.Size(268, 20);
+            this.tb_addonInfo_name.Size = new System.Drawing.Size(626, 20);
             this.tb_addonInfo_name.TabIndex = 1;
             // 
             // label1
@@ -344,7 +344,7 @@
             this.tabControl_main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_main.Name = "tabControl_main";
             this.tabControl_main.SelectedIndex = 0;
-            this.tabControl_main.Size = new System.Drawing.Size(619, 332);
+            this.tabControl_main.Size = new System.Drawing.Size(1154, 332);
             this.tabControl_main.TabIndex = 1;
             // 
             // page_main_addonInfo
@@ -353,7 +353,7 @@
             this.page_main_addonInfo.Location = new System.Drawing.Point(4, 22);
             this.page_main_addonInfo.Name = "page_main_addonInfo";
             this.page_main_addonInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.page_main_addonInfo.Size = new System.Drawing.Size(611, 306);
+            this.page_main_addonInfo.Size = new System.Drawing.Size(1146, 306);
             this.page_main_addonInfo.TabIndex = 0;
             this.page_main_addonInfo.Text = "Addons Info";
             this.page_main_addonInfo.UseVisualStyleBackColor = true;
@@ -371,6 +371,28 @@
             this.page_main_settings.TabIndex = 1;
             this.page_main_settings.Text = "Settings";
             this.page_main_settings.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.checkBox_settings_enableLog);
+            this.groupBox1.Location = new System.Drawing.Point(284, 113);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(319, 55);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Other";
+            // 
+            // checkBox_settings_enableLog
+            // 
+            this.checkBox_settings_enableLog.AutoSize = true;
+            this.checkBox_settings_enableLog.Checked = true;
+            this.checkBox_settings_enableLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_settings_enableLog.Location = new System.Drawing.Point(12, 19);
+            this.checkBox_settings_enableLog.Name = "checkBox_settings_enableLog";
+            this.checkBox_settings_enableLog.Size = new System.Drawing.Size(113, 17);
+            this.checkBox_settings_enableLog.TabIndex = 0;
+            this.checkBox_settings_enableLog.Text = "Enable log printing";
+            this.checkBox_settings_enableLog.UseVisualStyleBackColor = true;
             // 
             // groupBox_settings_saveLoad
             // 
@@ -562,7 +584,7 @@
             // splitContainer_main_log.Panel2
             // 
             this.splitContainer_main_log.Panel2.Controls.Add(this.listView_main_log);
-            this.splitContainer_main_log.Size = new System.Drawing.Size(619, 446);
+            this.splitContainer_main_log.Size = new System.Drawing.Size(1154, 446);
             this.splitContainer_main_log.SplitterDistance = 332;
             this.splitContainer_main_log.TabIndex = 2;
             // 
@@ -575,7 +597,7 @@
             this.listView_main_log.Location = new System.Drawing.Point(0, 0);
             this.listView_main_log.MultiSelect = false;
             this.listView_main_log.Name = "listView_main_log";
-            this.listView_main_log.Size = new System.Drawing.Size(619, 110);
+            this.listView_main_log.Size = new System.Drawing.Size(1154, 110);
             this.listView_main_log.TabIndex = 0;
             this.listView_main_log.UseCompatibleStateImageBehavior = false;
             this.listView_main_log.View = System.Windows.Forms.View.Details;
@@ -584,33 +606,11 @@
             // 
             this.columnHeader_main_log.Width = 615;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkBox_settings_enableLog);
-            this.groupBox1.Location = new System.Drawing.Point(284, 113);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(319, 55);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Other";
-            // 
-            // checkBox_settings_enableLog
-            // 
-            this.checkBox_settings_enableLog.AutoSize = true;
-            this.checkBox_settings_enableLog.Checked = true;
-            this.checkBox_settings_enableLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_settings_enableLog.Location = new System.Drawing.Point(12, 19);
-            this.checkBox_settings_enableLog.Name = "checkBox_settings_enableLog";
-            this.checkBox_settings_enableLog.Size = new System.Drawing.Size(113, 17);
-            this.checkBox_settings_enableLog.TabIndex = 0;
-            this.checkBox_settings_enableLog.Text = "Enable log printing";
-            this.checkBox_settings_enableLog.UseVisualStyleBackColor = true;
-            // 
             // GUIView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(619, 446);
+            this.ClientSize = new System.Drawing.Size(1154, 446);
             this.Controls.Add(this.splitContainer_main_log);
             this.MinimumSize = new System.Drawing.Size(635, 485);
             this.Name = "GUIView";
@@ -627,6 +627,8 @@
             this.tabControl_main.ResumeLayout(false);
             this.page_main_addonInfo.ResumeLayout(false);
             this.page_main_settings.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox_settings_saveLoad.ResumeLayout(false);
             this.groupBox_settings_server.ResumeLayout(false);
             this.groupBox_settings_server.PerformLayout();
@@ -636,8 +638,6 @@
             this.splitContainer_main_log.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_log)).EndInit();
             this.splitContainer_main_log.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

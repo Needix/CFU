@@ -52,6 +52,12 @@
     <Compile Include="ProjectSRC\Controller\GUIController.Settings.cs" />
     <Compile Include="ProjectSRC\Controller\GUIController.Sync.cs" />
     <Compile Include="ProjectSRC\Controller\Serializer.cs" />
+    <Compile Include="ProjectSRC\GUI\GUIShowDiff.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectSRC\GUI\GUIShowDiff.Designer.cs">
+      <DependentUpon>GUIShowDiff.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProjectSRC\GUI\GUIView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,10 +69,14 @@
     </Compile>
     <Compile Include="ProjectSRC\Model\Addon.cs" />
     <Compile Include="ProjectSRC\Model\GUIModel.cs" />
+    <Compile Include="ProjectSRC\Model\Lists.cs" />
     <Compile Include="ProjectSRC\Model\ServerModel.cs" />
     <Compile Include="ProjectSRC\Model\SettingsModel.cs" />
     <Compile Include="ProjectSRC\SimpleAES.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ProjectSRC\GUI\GUIShowDiff.resx">
+      <DependentUpon>GUIShowDiff.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProjectSRC\GUI\GUIView.resx">
       <DependentUpon>GUIView.cs</DependentUpon>
     </EmbeddedResource>

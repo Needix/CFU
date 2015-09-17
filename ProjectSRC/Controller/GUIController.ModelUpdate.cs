@@ -83,6 +83,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
             switch(cbox.Name) {
                 case "checkBox_settings_enableLog":
                     Model.SettingsModel.EnableLogging = cbox.Checked;
+                    if(cbox.Checked) View.AddInfo("Log enabled!"); else View.AddInfo("Log disabled!");
                     break;
 
                 default:

@@ -19,7 +19,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
         }
 
         public void AddInfo(String text) {
-            AddLog(text, Color.Black);
+            AddLog(text, Color.White);
         }
 
         public void AddWarningInfo(String text) {

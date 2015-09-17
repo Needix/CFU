@@ -49,74 +49,169 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
         //INFO: dreistetraitor/programm.exe
         //INFO: dreistetraitor/serverdata/garrysmod/addons
         public void SyncLocalServer(object sender, EventArgs e) {
-            
-        }
-        public void SyncServerLocal(object sender, EventArgs e) {
-            List<String> rootFolders = new List<string>();
-            List<String> rootFiles = new List<string>();
-            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
-            Client_ListFAFs(GMOD_ROOT, rootFolders, rootFiles, true, true);
+            Lists l = new Lists();
+            CalculateLists(l);
 
-            List<String> remoteFolders = new List<string>();
-            List<String> remoteFiles = new List<string>();
-            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
-            FTP_ListFAFs(null, remoteFolders, remoteFiles, true, true);
+            CompareLocalServer(true, true, l);
+            CompareServerLocal(true, true, l);
 
-            View.AddInfo("Starting to compare root folder with remote folder...");
             WebClient client = CreateServerWebClient();
-            foreach(string remoteFolder in remoteFolders) {
-                bool found = false;
-                foreach (string rootFolder in rootFolders) {
-                    if (rootFolder.Equals(remoteFolder)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    string newDir = GMOD_ROOT + remoteFolder;
-                    View.AddInfo("Creating directory: "+newDir);
-                    Directory.CreateDirectory(newDir);
-                }
+            foreach(string missingRemoteFolder in l.MissingRemoteFolders) {
+                string newFolder = GMOD_ROOT + missingRemoteFolder;
+                FtpWebRequest ftp = CreateServerWebRequest(missingRemoteFolder+"/");
+                ftp.Method = WebRequestMethods.Ftp.MakeDirectory;
+                FtpWebResponse resp = (FtpWebResponse)ftp.GetResponse();
+                View.AddInfo("Created missing directory: "+newFolder+" @"+ftp.RequestUri);
+                resp.Close();
             }
-
-            View.AddInfo("Starting to compare root files with remote files...");
-            foreach(string remoteFile in remoteFiles) {
-                bool found = false;
-                foreach(string rootFile in rootFiles) {
-                    if(rootFile.Equals(remoteFile)) {
-                        found = true; //TODO: Not only check if file exists, but only if same/equals
-                        break;
-                    }
-                }
-                if(!found) {
-                    string newFile = GMOD_ROOT + remoteFile;
-                    View.AddInfo("Downloading file: \""+remoteFile+"\" and saving in location \""+newFile+"\"");
-                    client.DownloadFile(GetServerURI(remoteFile), newFile);
-                }
+            foreach(string missingRemoteFile in l.MissingRemoteFiles) {
+                String newFile = GMOD_ROOT + missingRemoteFile;
+                View.AddInfo("Uploading file: \""+newFile+"\" and saving in location \""+GetServerURI(missingRemoteFile)+"\"");
+                client.UploadFile(GetServerURI(missingRemoteFile), newFile);
             }
             client.Dispose();
+
+            View.AddInfo("Finished syncing!");
+        }
+        public void SyncServerLocal(object sender, EventArgs e) {
+            Lists l = new Lists();
+            CalculateLists(l);
+
+            CompareServerLocal(true, true, l);
+            CompareLocalServer(true, true, l);
+            
+            WebClient client = CreateServerWebClient();
+            foreach(string missingLocalFolder in l.MissingLocalFolders) {
+                string newFolder = GMOD_ROOT + missingLocalFolder;
+                View.AddInfo("Creating missing directory: "+newFolder);
+                Directory.CreateDirectory(newFolder);
+            }
+            foreach(string missingLocalFile in l.MissingLocalFiles) {
+                String newFile = GMOD_ROOT + missingLocalFile;
+                View.AddInfo("Downloading file: \""+missingLocalFile+"\" and saving in location \""+newFile+"\"");
+                client.DownloadFile(GetServerURI(missingLocalFile), newFile);
+            }
+            client.Dispose();
+            
+            View.AddInfo("Finished syncing!");
         }
 
         public void Check(object sender, EventArgs e) {
             Debug.WriteLine("Finished reading...");
         }
 
-        private List<String> CompareVersions(bool compareFiles, bool compareFolder) {
-            if (!compareFiles && !compareFolder) return null;
-            List<String> rootFolders = new List<string>();
-            List<String> rootFiles = new List<string>();
-            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
-            Client_ListFAFs(GMOD_ROOT, rootFolders, rootFiles, true, true);
+        private bool CompareServerLocal(bool compareFiles, bool compareFolder, Lists l) {
+            if(!compareFiles && !compareFolder) return false;
 
-            List<String> remoteFolders = new List<string>();
-            List<String> remoteFiles = new List<string>();
-            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
-            FTP_ListFAFs(null, remoteFolders, remoteFiles, true, true);
+            List<String> rootFiles = l.RootFiles;
+            List<String> rootFolders = l.RootFolders;
+            List<String> remoteFiles = l.RemoteFiles;
+            List<String> remoteFolders = l.RemoteFolders;
 
-            return null;
+            l.MissingLocalFiles = new List<string>();
+            l.MissingLocalFolders = new List<string>();
+
+            View.AddInfo("Starting to compare remote folder with root folder...");
+            if(compareFiles) {
+                foreach(string remoteFile in remoteFiles) {
+                    bool found = false;
+                    foreach(string rootFile in rootFiles) {
+                        if(rootFile.Equals(remoteFile)) {
+                            found = true; //TODO: Not only check if file exists, but also if same/equals
+                            break;
+                        }
+                    }
+                    if(!found) { //TODO: Also check if file/folder has to be deleted (exitsts locally but not on server)
+                        string newFile = GMOD_ROOT + remoteFile;
+                        l.MissingLocalFiles.Add(remoteFile); 
+                    }
+                }
+            }
+
+            if(compareFolder) {
+                foreach(string remoteFolder in remoteFolders) {
+                    bool found = false;
+                    foreach(string rootFolder in rootFolders) {
+                        if(rootFolder.Equals(remoteFolder)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        string newDir = GMOD_ROOT + remoteFolder;
+                        l.MissingLocalFolders.Add(remoteFolder);
+                    }
+                }
+            }
+            return true;
         }
 
-        private void Client_ListFAFs(String baseFolder, List<String> folderList, List<String> fileList, bool recFiles, bool recFolder) {
+
+        private bool CompareLocalServer(bool compareFiles, bool compareFolder, Lists l) {
+            if(!compareFiles && !compareFolder) return false;
+
+            List<String> rootFiles = l.RootFiles;
+            List<String> rootFolders = l.RootFolders;
+            List<String> remoteFiles = l.RemoteFiles;
+            List<String> remoteFolders = l.RemoteFolders;
+
+            l.MissingRemoteFiles = new List<string>();
+            l.MissingRemoteFolders = new List<string>();
+
+            View.AddInfo("Starting to compare root folder with remote folder...");
+            if(compareFiles) {
+                foreach(string rootFile in rootFiles) {
+                    bool found = false;
+                    foreach(string remoteFile in remoteFiles) {
+                        if(rootFile.Equals(remoteFile)) {
+                            found = true; //TODO: Not only check if file exists, but also if same/equals
+                            break;
+                        }
+                    }
+                    if(!found) { //TODO: Also check if file/folder has to be deleted (exitsts locally but not on server)
+                        string newFile = GMOD_ROOT + rootFile;
+                        l.MissingRemoteFiles.Add(rootFile);
+                    }
+                }
+            }
+
+            if(compareFolder) {
+                foreach(string rootFolder in rootFolders) {
+                    bool found = false;
+                    foreach(string remoteFolder in remoteFolders) {
+                        if(rootFolder.Equals(remoteFolder)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        string newDir = GMOD_ROOT + rootFolder;
+                        l.MissingRemoteFolders.Add(rootFolder);
+                        //View.AddInfo("Creating directory: " + newDir);
+                        //Directory.CreateDirectory(newDir);
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void CalculateLists(Lists l) {
+            l.RootFolders = new List<string>();
+            l.RootFiles = new List<string>();
+            l.RemoteFolders = new List<string>();
+            l.RemoteFiles = new List<string>();
+
+            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
+            Client_ListFAFs(GMOD_ROOT, l, true, true);
+
+            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
+            FTP_ListFAFs(null, l, true, true);
+        }
+        
+        private void Client_ListFAFs(String baseFolder, Lists l, bool recFiles, bool recFolder) {
+            List<String> folderList = l.RootFolders;
+            List<String> fileList = l.RootFiles;
+
             if(!recFolder && !recFiles) return;
             String[] folders = Directory.GetDirectories(baseFolder);
             String[] files = Directory.GetFiles(baseFolder);
@@ -136,12 +231,14 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
                         relative = relative.Replace('\\', '/');
                         folderList.Add(relative);
                     }
-                    Client_ListFAFs(folder, folderList, fileList, recFiles, true);
+                    Client_ListFAFs(folder, l, recFiles, true);
                 }
             }
         }
+        private void FTP_ListFAFs(List<String> relPaths, Lists l, bool recFiles, bool recFolder) {
+            List<String> folder = l.RemoteFolders;
+            List<String> files = l.RemoteFiles;
 
-        private void FTP_ListFAFs(List<String> relPaths, List<String> folder, List<String> files, bool recFiles, bool recFolder) {
             if (relPaths == null) {
                 relPaths = new List<string>();
                 relPaths.Add("");
@@ -185,9 +282,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
                 }
                 response1.Close();
 
-                FTP_ListFAFs(dirList, folder, files, recFiles, recFolder);
+                FTP_ListFAFs(dirList, l, recFiles, recFolder);
             }
         }
-
     }
 }
