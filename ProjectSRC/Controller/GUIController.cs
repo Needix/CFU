@@ -20,7 +20,8 @@ using Custom_FTP_Uploader.ProjectSRC.Model;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Controller {
     public partial class GUIController {
-        private const string GMOD_BASE = "R:\\Other\\TestFTPServer\\Local_GMOD\\";
+        private const string GMOD_BASE = "R:/Other/TestFTPServer/Local_GMOD/";
+        //private const string GMOD_BASE = "/";
         private const string GMOD_SUB_FOLDER = "serverdata/garrysmod/";
         private const string GMOD_ROOT = GMOD_BASE + GMOD_SUB_FOLDER;
 
@@ -52,19 +53,31 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
             Lists l = new Lists();
             CalculateLists(l);
 
-            CompareLocalServer(true, true, l);
-            CompareServerLocal(true, true, l);
-
             WebClient client = CreateServerWebClient();
-            foreach(string missingRemoteFolder in l.MissingRemoteFolders) {
+            foreach (string missingLocalFile in l.MissingLocalFiles) { //Delete all files on ftp, that dont exists locally
+                FtpWebRequest ftp = CreateServerWebRequest(missingLocalFile);
+                View.AddInfo("Deleting file from ftp: "+ftp.RequestUri);
+                Debug.WriteLine("Deleting file from ftp: "+ftp.RequestUri);
+                ftp.Method = WebRequestMethods.Ftp.DeleteFile;
+                ftp.GetResponse().Close();
+            }
+            foreach (string missingLocalFolder in l.MissingLocalFolders) { //Delete all folder on ftp, that dont exists locally
+                FtpWebRequest ftp = CreateServerWebRequest(missingLocalFolder);
+                View.AddInfo("Deleting folder from ftp: "+ftp.RequestUri);
+                Debug.WriteLine("Deleting folder from ftp: "+ftp.RequestUri);
+                ftp.Method = WebRequestMethods.Ftp.RemoveDirectory;
+                ftp.GetResponse().Close();
+                //try { } catch(WebException ex) { View.AddWarningInfo("Could not delete folder from ftp: "+ex.InnerException.); }
+            }
+
+            foreach(string missingRemoteFolder in l.MissingRemoteFolders) { //Create all folder on ftp, that dont exists on ftp
                 string newFolder = GMOD_ROOT + missingRemoteFolder;
                 FtpWebRequest ftp = CreateServerWebRequest(missingRemoteFolder+"/");
+                View.AddInfo("Creating missing directory: "+newFolder+" @"+ftp.RequestUri);
                 ftp.Method = WebRequestMethods.Ftp.MakeDirectory;
-                FtpWebResponse resp = (FtpWebResponse)ftp.GetResponse();
-                View.AddInfo("Created missing directory: "+newFolder+" @"+ftp.RequestUri);
-                resp.Close();
+                ftp.GetResponse().Close();
             }
-            foreach(string missingRemoteFile in l.MissingRemoteFiles) {
+            foreach(string missingRemoteFile in l.MissingRemoteFiles) { //Upload all files on ftp, that dont exists on ftp
                 String newFile = GMOD_ROOT + missingRemoteFile;
                 View.AddInfo("Uploading file: \""+newFile+"\" and saving in location \""+GetServerURI(missingRemoteFile)+"\"");
                 client.UploadFile(GetServerURI(missingRemoteFile), newFile);
@@ -76,20 +89,28 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
         public void SyncServerLocal(object sender, EventArgs e) {
             Lists l = new Lists();
             CalculateLists(l);
-
-            CompareServerLocal(true, true, l);
-            CompareLocalServer(true, true, l);
             
             WebClient client = CreateServerWebClient();
-            foreach(string missingLocalFolder in l.MissingLocalFolders) {
+            foreach(string missingRemoteFile in l.MissingRemoteFiles) { //Delete all files locally, that dont exist on server
+                string fileToDelete = GMOD_ROOT + missingRemoteFile;
+                View.AddInfo("Deleting file: "+fileToDelete);
+                File.Delete(fileToDelete);
+            }
+            foreach (string missingRemoteFolder in l.MissingRemoteFolders) { //Delete all folder locally, that dont exist on server
+                string folderToDelete = GMOD_ROOT + missingRemoteFolder;
+                View.AddInfo("Deleting folder: "+folderToDelete);
+                Directory.Delete(folderToDelete);
+            }
+
+            foreach(string missingLocalFolder in l.MissingLocalFolders) { //Create all folder locally, that dont exist locally
                 string newFolder = GMOD_ROOT + missingLocalFolder;
                 View.AddInfo("Creating missing directory: "+newFolder);
                 Directory.CreateDirectory(newFolder);
             }
-            foreach(string missingLocalFile in l.MissingLocalFiles) {
+            foreach(string missingLocalFile in l.MissingLocalFiles) { //Download all files locally, that dont exist locally
                 String newFile = GMOD_ROOT + missingLocalFile;
                 View.AddInfo("Downloading file: \""+missingLocalFile+"\" and saving in location \""+newFile+"\"");
-                client.DownloadFile(GetServerURI(missingLocalFile), newFile);
+                client.DownloadFile(GetServerURI(missingLocalFile), newFile); //TODO: Implement async download
             }
             client.Dispose();
             
@@ -97,63 +118,76 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
         }
 
         public void Check(object sender, EventArgs e) {
-            Debug.WriteLine("Finished reading...");
+            throw new NotImplementedException("Check is not implemented yet!");
         }
 
+        private void CalculateLists(Lists l) {
+            l.RootFolders = new List<string>();
+            l.RootFiles = new List<string>();
+            l.RemoteFolders = new List<FTP_FAF>();
+            l.RemoteFiles = new List<FTP_FAF>();
+
+            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
+            Client_ListFAFs(GMOD_ROOT, l, true, true);
+
+            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
+            FTP_ListFAFs("", l, true, true);
+
+            CompareServerLocal(true, true, l);
+            CompareLocalServer(true, true, l);
+        }
         private bool CompareServerLocal(bool compareFiles, bool compareFolder, Lists l) {
             if(!compareFiles && !compareFolder) return false;
 
             List<String> rootFiles = l.RootFiles;
             List<String> rootFolders = l.RootFolders;
-            List<String> remoteFiles = l.RemoteFiles;
-            List<String> remoteFolders = l.RemoteFolders;
+            List<FTP_FAF> remoteFiles = l.RemoteFiles;
+            List<FTP_FAF> remoteFolders = l.RemoteFolders;
 
             l.MissingLocalFiles = new List<string>();
             l.MissingLocalFolders = new List<string>();
 
             View.AddInfo("Starting to compare remote folder with root folder...");
             if(compareFiles) {
-                foreach(string remoteFile in remoteFiles) {
+                foreach(FTP_FAF remoteFile in remoteFiles) {
                     bool found = false;
                     foreach(string rootFile in rootFiles) {
-                        if(rootFile.Equals(remoteFile)) {
-                            found = true; //TODO: Not only check if file exists, but also if same/equals
+                        if(rootFile.Equals(remoteFile.RelativePath)) {
+                            found = remoteFile.Filesize == new FileInfo(GMOD_ROOT+rootFile).Length;
                             break;
                         }
                     }
-                    if(!found) { //TODO: Also check if file/folder has to be deleted (exitsts locally but not on server)
+                    if(!found) {
                         string newFile = GMOD_ROOT + remoteFile;
-                        l.MissingLocalFiles.Add(remoteFile); 
+                        l.MissingLocalFiles.Add(remoteFile.RelativePath); 
                     }
                 }
             }
 
             if(compareFolder) {
-                foreach(string remoteFolder in remoteFolders) {
+                foreach(FTP_FAF remoteFolder in remoteFolders) {
                     bool found = false;
                     foreach(string rootFolder in rootFolders) {
-                        if(rootFolder.Equals(remoteFolder)) {
+                        if(rootFolder.Equals(remoteFolder.RelativePath)) {
                             found = true;
                             break;
                         }
                     }
                     if(!found) {
                         string newDir = GMOD_ROOT + remoteFolder;
-                        l.MissingLocalFolders.Add(remoteFolder);
+                        l.MissingLocalFolders.Add(remoteFolder.RelativePath);
                     }
                 }
             }
             return true;
         }
-
-
         private bool CompareLocalServer(bool compareFiles, bool compareFolder, Lists l) {
             if(!compareFiles && !compareFolder) return false;
 
             List<String> rootFiles = l.RootFiles;
             List<String> rootFolders = l.RootFolders;
-            List<String> remoteFiles = l.RemoteFiles;
-            List<String> remoteFolders = l.RemoteFolders;
+            List<FTP_FAF> remoteFiles = l.RemoteFiles;
+            List<FTP_FAF> remoteFolders = l.RemoteFolders;
 
             l.MissingRemoteFiles = new List<string>();
             l.MissingRemoteFolders = new List<string>();
@@ -162,13 +196,13 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
             if(compareFiles) {
                 foreach(string rootFile in rootFiles) {
                     bool found = false;
-                    foreach(string remoteFile in remoteFiles) {
-                        if(rootFile.Equals(remoteFile)) {
-                            found = true; //TODO: Not only check if file exists, but also if same/equals
+                    foreach(FTP_FAF remoteFile in remoteFiles) {
+                        if(rootFile.Equals(remoteFile.RelativePath)) {
+                            found = remoteFile.Filesize == new FileInfo(GMOD_ROOT+rootFile).Length;
                             break;
                         }
                     }
-                    if(!found) { //TODO: Also check if file/folder has to be deleted (exitsts locally but not on server)
+                    if(!found) {
                         string newFile = GMOD_ROOT + rootFile;
                         l.MissingRemoteFiles.Add(rootFile);
                     }
@@ -178,8 +212,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
             if(compareFolder) {
                 foreach(string rootFolder in rootFolders) {
                     bool found = false;
-                    foreach(string remoteFolder in remoteFolders) {
-                        if(rootFolder.Equals(remoteFolder)) {
+                    foreach(FTP_FAF remoteFolder in remoteFolders) {
+                        if(rootFolder.Equals(remoteFolder.RelativePath)) {
                             found = true;
                             break;
                         }
@@ -187,25 +221,10 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
                     if(!found) {
                         string newDir = GMOD_ROOT + rootFolder;
                         l.MissingRemoteFolders.Add(rootFolder);
-                        //View.AddInfo("Creating directory: " + newDir);
-                        //Directory.CreateDirectory(newDir);
                     }
                 }
             }
             return true;
-        }
-
-        private void CalculateLists(Lists l) {
-            l.RootFolders = new List<string>();
-            l.RootFiles = new List<string>();
-            l.RemoteFolders = new List<string>();
-            l.RemoteFiles = new List<string>();
-
-            View.AddInfo("Starting to search \""+GMOD_ROOT+"\" recursively... Please wait patiently.");
-            Client_ListFAFs(GMOD_ROOT, l, true, true);
-
-            View.AddInfo("Downloading file and folder list from \""+GetServerURI("", false)+"\"... Please wait patiently.");
-            FTP_ListFAFs(null, l, true, true);
         }
         
         private void Client_ListFAFs(String baseFolder, Lists l, bool recFiles, bool recFolder) {
@@ -225,65 +244,60 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
 
             foreach(string folder in folders) {
                 if(Directory.Exists(folder)) {
+                    if(folder.Contains(".svn") || folder.Contains(".git")) continue; //Exclude git and svn dirs
+                    string relative = folder.Substring(folder.IndexOf(GMOD_SUB_FOLDER) + GMOD_SUB_FOLDER.Length);
+                    relative = relative.Replace('\\', '/');
+
+                    Client_ListFAFs(folder, l, recFiles, true);
+
                     if(recFolder) {
-                        if(folder.Contains(".svn") || folder.Contains(".git")) continue; //Exclude git and svn dirs
-                        string relative = folder.Substring(folder.IndexOf(GMOD_SUB_FOLDER) + GMOD_SUB_FOLDER.Length);
-                        relative = relative.Replace('\\', '/');
                         folderList.Add(relative);
                     }
-                    Client_ListFAFs(folder, l, recFiles, true);
                 }
             }
         }
-        private void FTP_ListFAFs(List<String> relPaths, Lists l, bool recFiles, bool recFolder) {
-            List<String> folder = l.RemoteFolders;
-            List<String> files = l.RemoteFiles;
+        private void FTP_ListFAFs(String newDir, Lists l, bool recFiles, bool recFolder) {
+            List<FTP_FAF> folder = l.RemoteFolders;
+            List<FTP_FAF> files = l.RemoteFiles;
 
-            if (relPaths == null) {
-                relPaths = new List<string>();
-                relPaths.Add("");
+            WebRequest wr = CreateServerWebRequest(newDir);
+            if (wr == null) {
+                Debug.WriteLine("ERROR: Could not create server web request!");
+                return;
             }
-            foreach (string relPath in relPaths) {
-                WebRequest wr = CreateServerWebRequest(relPath);
-                if (wr == null) {
-                    Debug.WriteLine("ERROR: Could not create server web request!");
-                    return;
-                }
-                wr.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
-                FtpWebResponse response1 = (FtpWebResponse) wr.GetResponse();
-                Stream stream = response1.GetResponseStream();
-                if (stream == null) {
-                    Debug.WriteLine("ERROR: Response stream was empty!");
-                    return;
-                }
-
-                StreamReader reader = new StreamReader(stream);
-                List<String> dirList = new List<string>();
-                String line;
-                while ((line = reader.ReadLine()) != null) {
-                    Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
-                                            RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-                    Match m = regex.Match(line);
-                    GroupCollection groups = m.Groups;
-                    bool file = "-".Equals(groups[1].ToString());
-                    string permissions = groups[2].ToString();
-                    string filesize = groups[3].ToString();
-                    string lastModifiedDate = groups[4].ToString();
-                    string lastModifiedTime = groups[5].ToString();
-                    string name = groups[6].ToString();
-                    string fullPath = relPath + "/" + name;
-                    if("".Equals(relPath)) fullPath = name;
-
-                    if(!file && (name.Contains(".svn") || name.Contains(".git"))) continue; //Exclude git and svn dirs
-
-                    if(recFiles && file) files.Add(fullPath);
-                    if(recFolder && !file) folder.Add(fullPath);
-                    if(!file) dirList.Add(fullPath);
-                }
-                response1.Close();
-
-                FTP_ListFAFs(dirList, l, recFiles, recFolder);
+            wr.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
+            FtpWebResponse response1 = (FtpWebResponse) wr.GetResponse();
+            Stream stream = response1.GetResponseStream();
+            if (stream == null) {
+                Debug.WriteLine("ERROR: Response stream was empty!");
+                return;
             }
+
+            StreamReader reader = new StreamReader(stream);
+            String line;
+            while ((line = reader.ReadLine()) != null) {
+                Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$", //http://stackoverflow.com/questions/1013486/parsing-ftpwebrequests-listdirectorydetails-line
+                                        RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+                Match m = regex.Match(line);
+                GroupCollection groups = m.Groups;
+                bool file = "-".Equals(groups[1].ToString());
+                string permissions = groups[2].ToString();
+                string filesize = groups[3].ToString();
+                string lastModifiedDate = groups[4].ToString();
+                string lastModifiedTime = groups[5].ToString();
+                string name = groups[6].ToString();
+                string fullPath = newDir + "/" + name;
+                if("".Equals(newDir)) fullPath = name;
+
+                if(!file && (name.Contains(".svn") || name.Contains(".git"))) continue; //Exclude git and svn dirs
+
+                FTP_FAF newFaf = new FTP_FAF(file, permissions, Convert.ToInt32(filesize), lastModifiedDate, lastModifiedTime, name, fullPath);
+                
+                if(!file) FTP_ListFAFs(fullPath, l, recFiles, recFolder);
+                if (recFiles && file) files.Add(newFaf);
+                if (recFolder && !file) folder.Add(newFaf);
+            }
+            response1.Close();
         }
     }
 }
