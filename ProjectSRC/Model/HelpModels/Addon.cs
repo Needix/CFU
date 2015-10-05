@@ -9,16 +9,14 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Custom_FTP_Uploader.ProjectSRC.Model {
+namespace Custom_FTP_Uploader.ProjectSRC.Model.HelpModels {
     public class Addon {
         public enum DownloadType {
-            NotSelected = 0,
             FastDL = 1,
             Workshop = 2,
         }
 
         public enum AddonType {
-            NotSelected = 0,
             Addons = 1,
             Root = 2,
         }
@@ -30,7 +28,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
         public AddonType AType { get; set; }
         public DownloadType DLType { get; set; }
 
-        public Addon() : this("Serialized Addon Name", "Serialized Directory Name", "Serialized First Uploaded", "Serialized Last Updated", AddonType.NotSelected, DownloadType.NotSelected) { }
+        public Addon() : this("Serialized Addon Name", "Serialized Directory Name", "Serialized First Uploaded", "Serialized Last Updated", AddonType.Addons, DownloadType.FastDL) { }
 
         public Addon(String name, String dirName, String firstUploaded, String lastUpdated, AddonType aType, DownloadType dlType) {
             Name = name;

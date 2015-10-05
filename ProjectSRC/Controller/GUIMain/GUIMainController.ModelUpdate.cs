@@ -9,10 +9,10 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Custom_FTP_Uploader.ProjectSRC.Model;
+using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
-namespace Custom_FTP_Uploader.ProjectSRC.Controller {
-    public partial class GUIController {
+namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
+    public partial class GUIMainController {
 
         public void TB_TextChanged(object sender, EventArgs e) {
             TextBox tb = (TextBox)sender;

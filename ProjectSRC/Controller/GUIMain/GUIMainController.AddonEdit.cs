@@ -8,9 +8,10 @@
 
 using System;
 using Custom_FTP_Uploader.ProjectSRC.Model;
+using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
-namespace Custom_FTP_Uploader.ProjectSRC.Controller {
-    public partial class GUIController {
+namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
+    public partial class GUIMainController {
         public void NewAddon(object sender, EventArgs e) {
             Addon addon = Model.CreateAddonFromModel();
             if(addon == null) return;

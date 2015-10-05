@@ -9,14 +9,15 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain;
 using Custom_FTP_Uploader.ProjectSRC.Model;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Controller {
     public class Serializer {
         private const String SAVE_PATH = "save.xml";
-        private readonly GUIController _controller;
+        private readonly GUIMainController _controller;
 
-        public Serializer(GUIController controller) {
+        public Serializer(GUIMainController controller) {
             _controller = controller;
         }
 
@@ -68,14 +69,12 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller {
         /// </summary>
         /// <returns>The loaded model, or null if loading failed</returns>
         public GUIModel Deserialize() {
-            try {
-                XmlSerializer serializer = new XmlSerializer(typeof(GUIModel));
-                if(!File.Exists(SAVE_PATH)) return null;
-                FileStream fs = new FileStream(SAVE_PATH, FileMode.Open);
-                GUIModel obj = (GUIModel)serializer.Deserialize(fs);
-                fs.Close();
-                return obj;
-            } catch(Exception) { return null; }
+            XmlSerializer serializer = new XmlSerializer(typeof(GUIModel));
+            if(!File.Exists(SAVE_PATH)) return null;
+            FileStream fs = new FileStream(SAVE_PATH, FileMode.Open);
+            GUIModel obj = (GUIModel)serializer.Deserialize(fs);
+            fs.Close();
+            return obj;
         }
     }
 }

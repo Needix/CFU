@@ -10,8 +10,8 @@ using System;
 using System.Diagnostics;
 using System.Net;
 
-namespace Custom_FTP_Uploader.ProjectSRC.Controller {
-    public partial class GUIController {
+namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
+    public partial class GUIMainController {
         private WebClient CreateServerWebClient() {
             WebClient result = new WebClient();
             result.Credentials = new NetworkCredential(Model.SettingsModel.Server.Username, Model.SettingsModel.FastDL.GetDecryptedPassword());

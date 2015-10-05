@@ -13,7 +13,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace Custom_FTP_Uploader.ProjectSRC.GUI {
-    public partial class GUIView {
+    public partial class GUIMainView {
         public void AddErrorInfo(String text) {
             AddLog(text, Color.Red);
         }

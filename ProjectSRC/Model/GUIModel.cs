@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Model {
     [XmlRoot("GUIModel")]
@@ -27,10 +28,14 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
         public Addon.AddonType CurrentAddonType { get; set; }
         public Addon.DownloadType CurrentDLType { get; set; }
 
+        public GUIModelDiff DiffModel { get; set; }
+
         public SettingsModel SettingsModel { get; set; }
 
         public GUIModel() {
             SettingsModel = new SettingsModel();
+
+            DiffModel = new GUIModelDiff();
 
             AddonList = new List<Addon>();
             SelectedAddonIndex = -1;
@@ -39,8 +44,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
             CurrentDirectoryName = "";
             CurrentFirstUploaded = "";
             CurrentLastUpdated = "";
-            CurrentAddonType = Addon.AddonType.NotSelected;
-            CurrentDLType = Addon.DownloadType.NotSelected;
+            CurrentAddonType = Addon.AddonType.Addons;
+            CurrentDLType = Addon.DownloadType.FastDL;
         }
 
         public Addon CreateAddonFromModel() {

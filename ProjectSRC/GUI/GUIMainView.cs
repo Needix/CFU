@@ -10,14 +10,19 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Custom_FTP_Uploader.ProjectSRC.Controller;
+using Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain;
 using Custom_FTP_Uploader.ProjectSRC.Model;
+using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
 namespace Custom_FTP_Uploader.ProjectSRC.GUI {
-    public partial class GUIView :Form {
-        private GUIController _controller;
+    public partial class GUIMainView :Form {
+        private GUIMainController _controller;
 
-        public GUIView() {
+        private GUIDiffView _diffView;
+
+        public GUIMainView() {
             InitializeComponent();
+
         }
 
         private void RegisterCustomEvents() {
@@ -27,7 +32,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
 
             b_sync_localServer.Click += _controller.SyncLocalServer;
             b_sync_serverLocal.Click += _controller.SyncServerLocal;
-            b_checkStatus.Click += _controller.Check;
+            b_sync_checkStatus.Click += _controller.Check;
 
             b_settings_save.Click += _controller.Serializer.Save;
             b_settings_load.Click += _controller.Serializer.Load;
@@ -51,9 +56,10 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
 
             listView_addonList.SelectedIndexChanged += _controller.ListView_SelectedIndexChanged;
         }
-
-        public void RegisterController(GUIController controller) {
+        
+        public void RegisterController(GUIMainController controller) {
             _controller = controller;
+            _diffView = new GUIDiffView(_controller.Model.DiffModel);
             RegisterCustomEvents();
         }
 
@@ -90,6 +96,12 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
                 listView_addonList.Items.Add(addon.ToString());
             }
             if(selectedItems.Count>0) listView_addonList.SelectedIndices.Add(selectedItems[0]);
+        }
+
+        public void ShowDiff(Boolean show, Lists l, GUIModelDiff model) {
+            model.CurrentLists = l;
+            _diffView.UpdateLists(model);
+            _diffView.Visible = show;
         }
     }
 }

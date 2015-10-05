@@ -1,5 +1,5 @@
 ﻿namespace Custom_FTP_Uploader.ProjectSRC.GUI {
-    partial class GUIView {
+    partial class GUIMainView {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -39,7 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tb_addonInfo_name = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.b_checkStatus = new System.Windows.Forms.Button();
+            this.b_sync_checkStatus = new System.Windows.Forms.Button();
             this.b_sync_serverLocal = new System.Windows.Forms.Button();
             this.b_sync_localServer = new System.Windows.Forms.Button();
             this.b_delete = new System.Windows.Forms.Button();
@@ -71,6 +71,8 @@
             this.splitContainer_main_log = new System.Windows.Forms.SplitContainer();
             this.listView_main_log = new System.Windows.Forms.ListView();
             this.columnHeader_main_log = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label13 = new System.Windows.Forms.Label();
+            this.tb_addonInfo_version = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_addons_buttons)).BeginInit();
             this.splitContainer_main_addons_buttons.Panel1.SuspendLayout();
             this.splitContainer_main_addons_buttons.Panel2.SuspendLayout();
@@ -107,7 +109,7 @@
             // 
             // splitContainer_main_addons_buttons.Panel2
             // 
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_checkStatus);
+            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_checkStatus);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_serverLocal);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_localServer);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_delete);
@@ -129,6 +131,8 @@
             // 
             // splitContainer_addons_list_info.Panel2
             // 
+            this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label13);
+            this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_version);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label6);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.cbox_addonInfo_fastdl_workshop);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label5);
@@ -167,7 +171,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 140);
+            this.label6.Location = new System.Drawing.Point(5, 168);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(101, 13);
             this.label6.TabIndex = 11;
@@ -182,7 +186,7 @@
             "Not selected",
             "FastDL",
             "Workshop"});
-            this.cbox_addonInfo_fastdl_workshop.Location = new System.Drawing.Point(121, 137);
+            this.cbox_addonInfo_fastdl_workshop.Location = new System.Drawing.Point(123, 165);
             this.cbox_addonInfo_fastdl_workshop.Name = "cbox_addonInfo_fastdl_workshop";
             this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(626, 21);
             this.cbox_addonInfo_fastdl_workshop.TabIndex = 10;
@@ -190,7 +194,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 113);
+            this.label5.Location = new System.Drawing.Point(5, 141);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 13);
             this.label5.TabIndex = 9;
@@ -205,7 +209,7 @@
             "Not selected",
             "Addons",
             "Root"});
-            this.cbox_addonInfo_addons_root.Location = new System.Drawing.Point(121, 110);
+            this.cbox_addonInfo_addons_root.Location = new System.Drawing.Point(123, 138);
             this.cbox_addonInfo_addons_root.Name = "cbox_addonInfo_addons_root";
             this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(626, 21);
             this.cbox_addonInfo_addons_root.TabIndex = 8;
@@ -215,9 +219,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 87);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 13);
+            this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Last updated (version)";
+            this.label4.Text = "Last updated:";
             // 
             // tb_addonInfo_lastUpdate
             // 
@@ -282,14 +286,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Addon Name: ";
             // 
-            // b_checkStatus
+            // b_sync_checkStatus
             // 
-            this.b_checkStatus.Location = new System.Drawing.Point(273, 32);
-            this.b_checkStatus.Name = "b_checkStatus";
-            this.b_checkStatus.Size = new System.Drawing.Size(95, 23);
-            this.b_checkStatus.TabIndex = 5;
-            this.b_checkStatus.Text = "Check status";
-            this.b_checkStatus.UseVisualStyleBackColor = true;
+            this.b_sync_checkStatus.Location = new System.Drawing.Point(273, 32);
+            this.b_sync_checkStatus.Name = "b_sync_checkStatus";
+            this.b_sync_checkStatus.Size = new System.Drawing.Size(95, 23);
+            this.b_sync_checkStatus.TabIndex = 5;
+            this.b_sync_checkStatus.Text = "Check status";
+            this.b_sync_checkStatus.UseVisualStyleBackColor = true;
             // 
             // b_sync_serverLocal
             // 
@@ -367,7 +371,7 @@
             this.page_main_settings.Location = new System.Drawing.Point(4, 22);
             this.page_main_settings.Name = "page_main_settings";
             this.page_main_settings.Padding = new System.Windows.Forms.Padding(3);
-            this.page_main_settings.Size = new System.Drawing.Size(611, 306);
+            this.page_main_settings.Size = new System.Drawing.Size(1146, 306);
             this.page_main_settings.TabIndex = 1;
             this.page_main_settings.Text = "Settings";
             this.page_main_settings.UseVisualStyleBackColor = true;
@@ -446,7 +450,7 @@
             this.groupBox_settings_server.Controls.Add(this.label8);
             this.groupBox_settings_server.Location = new System.Drawing.Point(314, 6);
             this.groupBox_settings_server.Name = "groupBox_settings_server";
-            this.groupBox_settings_server.Size = new System.Drawing.Size(289, 101);
+            this.groupBox_settings_server.Size = new System.Drawing.Size(824, 101);
             this.groupBox_settings_server.TabIndex = 1;
             this.groupBox_settings_server.TabStop = false;
             this.groupBox_settings_server.Text = "Server";
@@ -467,7 +471,7 @@
             this.tb_settings_server_password.Location = new System.Drawing.Point(73, 65);
             this.tb_settings_server_password.Name = "tb_settings_server_password";
             this.tb_settings_server_password.PasswordChar = '*';
-            this.tb_settings_server_password.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_password.Size = new System.Drawing.Size(740, 20);
             this.tb_settings_server_password.TabIndex = 8;
             // 
             // tb_settings_server_username
@@ -476,7 +480,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_settings_server_username.Location = new System.Drawing.Point(73, 39);
             this.tb_settings_server_username.Name = "tb_settings_server_username";
-            this.tb_settings_server_username.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_username.Size = new System.Drawing.Size(740, 20);
             this.tb_settings_server_username.TabIndex = 7;
             // 
             // label12
@@ -494,7 +498,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_settings_server_ipPort.Location = new System.Drawing.Point(73, 13);
             this.tb_settings_server_ipPort.Name = "tb_settings_server_ipPort";
-            this.tb_settings_server_ipPort.Size = new System.Drawing.Size(205, 20);
+            this.tb_settings_server_ipPort.Size = new System.Drawing.Size(740, 20);
             this.tb_settings_server_ipPort.TabIndex = 1;
             // 
             // label8
@@ -606,14 +610,32 @@
             // 
             this.columnHeader_main_log.Width = 615;
             // 
-            // GUIView
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 113);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(45, 13);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "Version:";
+            // 
+            // tb_addonInfo_version
+            // 
+            this.tb_addonInfo_version.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_addonInfo_version.Location = new System.Drawing.Point(121, 110);
+            this.tb_addonInfo_version.Name = "tb_addonInfo_version";
+            this.tb_addonInfo_version.Size = new System.Drawing.Size(626, 20);
+            this.tb_addonInfo_version.TabIndex = 12;
+            // 
+            // GUIMainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1154, 446);
             this.Controls.Add(this.splitContainer_main_log);
             this.MinimumSize = new System.Drawing.Size(635, 485);
-            this.Name = "GUIView";
+            this.Name = "GUIMainView";
             this.Text = "GUIView";
             this.splitContainer_main_addons_buttons.Panel1.ResumeLayout(false);
             this.splitContainer_main_addons_buttons.Panel2.ResumeLayout(false);
@@ -657,7 +679,7 @@
         private System.Windows.Forms.ComboBox cbox_addonInfo_fastdl_workshop;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbox_addonInfo_addons_root;
-        private System.Windows.Forms.Button b_checkStatus;
+        private System.Windows.Forms.Button b_sync_checkStatus;
         private System.Windows.Forms.Button b_sync_serverLocal;
         private System.Windows.Forms.Button b_sync_localServer;
         private System.Windows.Forms.Button b_delete;
@@ -692,5 +714,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader_main_log;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox checkBox_settings_enableLog;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox tb_addonInfo_version;
     }
 }

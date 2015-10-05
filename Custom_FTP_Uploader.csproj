@@ -45,41 +45,46 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.AddonEdit.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.Ftp.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.ModelUpdate.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.Settings.cs" />
-    <Compile Include="ProjectSRC\Controller\GUIController.Sync.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.AddonEdit.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.Ftp.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.ModelUpdate.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.Settings.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIDiff\GUIDiffController.cs" />
+    <Compile Include="ProjectSRC\Controller\GUIMain\GUIMainController.Sync.cs" />
     <Compile Include="ProjectSRC\Controller\Serializer.cs" />
-    <Compile Include="ProjectSRC\GUI\GUIShowDiff.cs">
+    <Compile Include="ProjectSRC\GUI\GUIDiffView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectSRC\GUI\GUIShowDiff.Designer.cs">
-      <DependentUpon>GUIShowDiff.cs</DependentUpon>
+    <Compile Include="ProjectSRC\GUI\GUIDiffView.Designer.cs">
+      <DependentUpon>GUIDiffView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectSRC\GUI\GUIView.cs">
+    <Compile Include="ProjectSRC\GUI\GUIMainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectSRC\GUI\GUIView.Designer.cs">
-      <DependentUpon>GUIView.cs</DependentUpon>
+    <Compile Include="ProjectSRC\GUI\GUIMainView.Designer.cs">
+      <DependentUpon>GUIMainView.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProjectSRC\GUI\GUIView.Log.cs">
+    <Compile Include="ProjectSRC\GUI\GUIMainView.Log.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProjectSRC\Model\Addon.cs" />
-    <Compile Include="ProjectSRC\Model\FTP_FAF.cs" />
+    <Compile Include="ProjectSRC\Model\GUIModelDiff.cs" />
+    <Compile Include="ProjectSRC\Model\HelpModels\Addon.cs" />
+    <Compile Include="ProjectSRC\Model\HelpModels\FTP_FAF.cs" />
     <Compile Include="ProjectSRC\Model\GUIModel.cs" />
-    <Compile Include="ProjectSRC\Model\Lists.cs" />
+    <Compile Include="ProjectSRC\Model\HelpModels\Lists.cs" />
+    <Compile Include="ProjectSRC\Model\HelpModels\FAF.cs" />
     <Compile Include="ProjectSRC\Model\ServerModel.cs" />
     <Compile Include="ProjectSRC\Model\SettingsModel.cs" />
     <Compile Include="ProjectSRC\SimpleAES.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ProjectSRC\GUI\GUIShowDiff.resx">
-      <DependentUpon>GUIShowDiff.cs</DependentUpon>
+    <EmbeddedResource Include="ProjectSRC\GUI\GUIDiffView.resx">
+      <DependentUpon>GUIDiffView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProjectSRC\GUI\GUIView.resx">
-      <DependentUpon>GUIView.cs</DependentUpon>
+    <EmbeddedResource Include="ProjectSRC\GUI\GUIMainView.resx">
+      <DependentUpon>GUIMainView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -90,6 +95,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -100,6 +106,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
