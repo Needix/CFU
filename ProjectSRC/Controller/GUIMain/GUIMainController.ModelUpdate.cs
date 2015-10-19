@@ -13,7 +13,6 @@ using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
     public partial class GUIMainController {
-
         public void TB_TextChanged(object sender, EventArgs e) {
             TextBox tb = (TextBox)sender;
             String tbText = tb.Text;
@@ -29,6 +28,9 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
                     break;
                 case "tb_addonInfo_lastUpdate":
                     Model.CurrentLastUpdated = tbText;
+                    break;
+                case "tb_addonInfo_version":
+                    Model.CurrentVersion = tbText;
                     break;
 
                 case "tb_settings_fastDL_ipPort":

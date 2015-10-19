@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
@@ -21,11 +22,21 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
         public List<Addon> AddonList { get; set; }
         public int SelectedAddonIndex { get; set; }
 
+        [XmlIgnore]
         public String CurrentAddonName { get; set; }
+        [XmlIgnore]
         public String CurrentDirectoryName { get; set; }
+        [XmlIgnore]
         public String CurrentFirstUploaded { get; set; }
+        [XmlIgnore]
         public String CurrentLastUpdated { get; set; }
+        [XmlIgnore]
+        public String CurrentVersion { get; set; }
+        [XmlIgnore]
+        public List<FAF> CurrentFileList { get; set; }
+        [XmlIgnore]
         public Addon.AddonType CurrentAddonType { get; set; }
+        [XmlIgnore]
         public Addon.DownloadType CurrentDLType { get; set; }
 
         public GUIModelDiff DiffModel { get; set; }
@@ -44,13 +55,16 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
             CurrentDirectoryName = "";
             CurrentFirstUploaded = "";
             CurrentLastUpdated = "";
+            CurrentVersion = "";
             CurrentAddonType = Addon.AddonType.Addons;
             CurrentDLType = Addon.DownloadType.FastDL;
+
+            CurrentFileList = new List<FAF>();
         }
 
-        public Addon CreateAddonFromModel() {
+        public Addon CreateAddonFromModel(List<FAF> fafList) {
             try {
-                return new Addon(CurrentAddonName, CurrentDirectoryName, CurrentFirstUploaded, CurrentLastUpdated, CurrentAddonType, CurrentDLType);
+                return new Addon(CurrentAddonName, CurrentDirectoryName, CurrentFirstUploaded, CurrentLastUpdated, CurrentVersion, CurrentAddonType, CurrentDLType, fafList);
             } catch (ArgumentException ex) {
                 MessageBox.Show(ex.Message);
                 return null;
@@ -66,6 +80,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.Model {
             CurrentLastUpdated = addon.LastUpdated;
             CurrentAddonType = addon.AType;
             CurrentDLType = addon.DLType;
+            CurrentFileList = addon.FAFList;
+            CurrentVersion = addon.Version;
         }
     }
 }

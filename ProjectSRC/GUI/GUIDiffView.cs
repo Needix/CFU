@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Custom_FTP_Uploader.ProjectSRC.Controller;
 using Custom_FTP_Uploader.ProjectSRC.Controller.GUIDiff;
+using Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain;
 using Custom_FTP_Uploader.ProjectSRC.Model;
 using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
 
@@ -15,10 +16,10 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
     public partial class GUIDiffView : Form {
         public GUIDiffController Controller { get; private set; }
 
-        public GUIDiffView(GUIModelDiff model) {
+        public GUIDiffView(GUIModelDiff model, GUIMainController _controller) {
             InitializeComponent();
 
-            Controller = new GUIDiffController(this, model);
+            Controller = new GUIDiffController(this, model, _controller);
 
             RegisterCustomEvents();
         }
@@ -35,6 +36,8 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             listBox_showDiff_local_filesToDownload.SelectedIndexChanged += Controller.ShowDiff_ListSelectedIndexChanged;
             listBox_showDiff_remote_filesToUpload.SelectedIndexChanged += Controller.ShowDiff_ListSelectedIndexChanged;
             listBox_showDiff_remote_missingFiles.SelectedIndexChanged += Controller.ShowDiff_ListSelectedIndexChanged;
+
+            this.Closing += ClosingForm;
         }
 
         public void UpdateLists(GUIModelDiff model) {
@@ -61,6 +64,11 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             foreach (FAF s in model.FilesToUpload) {
                 listBox_showDiff_remote_filesToUpload.Items.Add(s.Name);
             }
+        }
+
+        private void ClosingForm(object sender, CancelEventArgs e) {
+            this.Hide();
+            e.Cancel = true;
         }
     }
 }

@@ -8,7 +8,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Net;
 using System.Windows.Forms;
+using Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain;
 using Custom_FTP_Uploader.ProjectSRC.GUI;
 using Custom_FTP_Uploader.ProjectSRC.Model;
 using Custom_FTP_Uploader.ProjectSRC.Model.HelpModels;
@@ -17,10 +19,12 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIDiff {
     public class GUIDiffController {
         private readonly GUIDiffView _view;
         public GUIModelDiff Model { get; private set; }
+        private readonly GUIMainController _controller;
 
-        public GUIDiffController(GUIDiffView view, GUIModelDiff model) {
+        public GUIDiffController(GUIDiffView view, GUIModelDiff model, GUIMainController mainController) {
             _view = view;
             Model = model;
+            _controller = mainController;
         }
 
         public void ShowDiff_ButtonClick(object sender, EventArgs e) {
@@ -78,7 +82,13 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIDiff {
             Model.FilesToDownload.Remove(selectedFile);
         }
         private void DownloadLocalFiles() {
-            throw new NotImplementedException();
+            WebClient client = _controller.CreateServerWebClient();
+            foreach(FTP_FAF faf in Model.FilesToDownload) {
+                String newFile = GUIMainController.GMOD_ROOT + faf.RelativePath;
+                client.DownloadFile(_controller.GetServerURI(faf.RelativePath), newFile); //TODO: Implement async download // Progress bar
+            }
+            Model.FilesToDownload.Clear();
+            _view.UpdateLists(Model);
         }
         private void AddRemoteFile() {
             FAF selectedFile = Model.CurrentLists.MissingRemoteFAFs[Model.RemoteMissingFAFsSelectedIndex];
@@ -91,7 +101,13 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIDiff {
             Model.FilesToUpload.Remove(selectedFile);
         }
         private void UploadRemoteFiles() {
-            throw new NotImplementedException();
+            WebClient client = _controller.CreateServerWebClient();
+            foreach(FAF faf in Model.FilesToUpload) {
+                String newFile = GUIMainController.GMOD_ROOT + faf.Name;
+                client.UploadFile(_controller.GetServerURI(faf.Name), newFile); //TODO: Implement async upload // Progress bar
+            }
+            Model.FilesToUpload.Clear();
+            _view.UpdateLists(Model);
         }
     }
 }

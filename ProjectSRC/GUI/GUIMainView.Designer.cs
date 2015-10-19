@@ -27,6 +27,8 @@
             this.splitContainer_addons_list_info = new System.Windows.Forms.SplitContainer();
             this.listView_addonList = new System.Windows.Forms.ListView();
             this.columnHeader_main = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label13 = new System.Windows.Forms.Label();
+            this.tb_addonInfo_version = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbox_addonInfo_fastdl_workshop = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -42,9 +44,9 @@
             this.b_sync_checkStatus = new System.Windows.Forms.Button();
             this.b_sync_serverLocal = new System.Windows.Forms.Button();
             this.b_sync_localServer = new System.Windows.Forms.Button();
-            this.b_delete = new System.Windows.Forms.Button();
-            this.b_edit = new System.Windows.Forms.Button();
-            this.b_new = new System.Windows.Forms.Button();
+            this.b_addonInfo_delete = new System.Windows.Forms.Button();
+            this.b_addonInfo_edit = new System.Windows.Forms.Button();
+            this.b_addonInfo_new = new System.Windows.Forms.Button();
             this.tabControl_main = new System.Windows.Forms.TabControl();
             this.page_main_addonInfo = new System.Windows.Forms.TabPage();
             this.page_main_settings = new System.Windows.Forms.TabPage();
@@ -71,8 +73,8 @@
             this.splitContainer_main_log = new System.Windows.Forms.SplitContainer();
             this.listView_main_log = new System.Windows.Forms.ListView();
             this.columnHeader_main_log = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label13 = new System.Windows.Forms.Label();
-            this.tb_addonInfo_version = new System.Windows.Forms.TextBox();
+            this.b_addonInfo_refreshFileList = new System.Windows.Forms.Button();
+            this.listBox_addonInfo_files = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_main_addons_buttons)).BeginInit();
             this.splitContainer_main_addons_buttons.Panel1.SuspendLayout();
             this.splitContainer_main_addons_buttons.Panel2.SuspendLayout();
@@ -109,14 +111,15 @@
             // 
             // splitContainer_main_addons_buttons.Panel2
             // 
+            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_addonInfo_refreshFileList);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_checkStatus);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_serverLocal);
             this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_sync_localServer);
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_delete);
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_edit);
-            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_new);
-            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(1140, 300);
-            this.splitContainer_main_addons_buttons.SplitterDistance = 236;
+            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_addonInfo_delete);
+            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_addonInfo_edit);
+            this.splitContainer_main_addons_buttons.Panel2.Controls.Add(this.b_addonInfo_new);
+            this.splitContainer_main_addons_buttons.Size = new System.Drawing.Size(1140, 366);
+            this.splitContainer_main_addons_buttons.SplitterDistance = 332;
             this.splitContainer_main_addons_buttons.TabIndex = 0;
             // 
             // splitContainer_addons_list_info
@@ -131,6 +134,7 @@
             // 
             // splitContainer_addons_list_info.Panel2
             // 
+            this.splitContainer_addons_list_info.Panel2.Controls.Add(this.listBox_addonInfo_files);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label13);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_version);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label6);
@@ -145,8 +149,8 @@
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label2);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.tb_addonInfo_name);
             this.splitContainer_addons_list_info.Panel2.Controls.Add(this.label1);
-            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(1140, 236);
-            this.splitContainer_addons_list_info.SplitterDistance = 378;
+            this.splitContainer_addons_list_info.Size = new System.Drawing.Size(1140, 332);
+            this.splitContainer_addons_list_info.SplitterDistance = 386;
             this.splitContainer_addons_list_info.TabIndex = 0;
             // 
             // listView_addonList
@@ -158,7 +162,7 @@
             this.listView_addonList.Location = new System.Drawing.Point(0, 0);
             this.listView_addonList.MultiSelect = false;
             this.listView_addonList.Name = "listView_addonList";
-            this.listView_addonList.Size = new System.Drawing.Size(378, 236);
+            this.listView_addonList.Size = new System.Drawing.Size(386, 332);
             this.listView_addonList.TabIndex = 0;
             this.listView_addonList.UseCompatibleStateImageBehavior = false;
             this.listView_addonList.View = System.Windows.Forms.View.Details;
@@ -167,6 +171,24 @@
             // 
             this.columnHeader_main.Text = "";
             this.columnHeader_main.Width = 180;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 113);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(45, 13);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "Version:";
+            // 
+            // tb_addonInfo_version
+            // 
+            this.tb_addonInfo_version.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_addonInfo_version.Location = new System.Drawing.Point(121, 110);
+            this.tb_addonInfo_version.Name = "tb_addonInfo_version";
+            this.tb_addonInfo_version.Size = new System.Drawing.Size(618, 20);
+            this.tb_addonInfo_version.TabIndex = 12;
             // 
             // label6
             // 
@@ -183,12 +205,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbox_addonInfo_fastdl_workshop.FormattingEnabled = true;
             this.cbox_addonInfo_fastdl_workshop.Items.AddRange(new object[] {
-            "Not selected",
             "FastDL",
             "Workshop"});
             this.cbox_addonInfo_fastdl_workshop.Location = new System.Drawing.Point(123, 165);
             this.cbox_addonInfo_fastdl_workshop.Name = "cbox_addonInfo_fastdl_workshop";
-            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(626, 21);
+            this.cbox_addonInfo_fastdl_workshop.Size = new System.Drawing.Size(616, 21);
             this.cbox_addonInfo_fastdl_workshop.TabIndex = 10;
             // 
             // label5
@@ -206,12 +227,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbox_addonInfo_addons_root.FormattingEnabled = true;
             this.cbox_addonInfo_addons_root.Items.AddRange(new object[] {
-            "Not selected",
             "Addons",
             "Root"});
             this.cbox_addonInfo_addons_root.Location = new System.Drawing.Point(123, 138);
             this.cbox_addonInfo_addons_root.Name = "cbox_addonInfo_addons_root";
-            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(626, 21);
+            this.cbox_addonInfo_addons_root.Size = new System.Drawing.Size(616, 21);
             this.cbox_addonInfo_addons_root.TabIndex = 8;
             // 
             // label4
@@ -229,7 +249,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_lastUpdate.Location = new System.Drawing.Point(121, 84);
             this.tb_addonInfo_lastUpdate.Name = "tb_addonInfo_lastUpdate";
-            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(626, 20);
+            this.tb_addonInfo_lastUpdate.Size = new System.Drawing.Size(618, 20);
             this.tb_addonInfo_lastUpdate.TabIndex = 6;
             // 
             // tb_addonInfo_firstUploaded
@@ -238,7 +258,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_firstUploaded.Location = new System.Drawing.Point(121, 58);
             this.tb_addonInfo_firstUploaded.Name = "tb_addonInfo_firstUploaded";
-            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(626, 20);
+            this.tb_addonInfo_firstUploaded.Size = new System.Drawing.Size(618, 20);
             this.tb_addonInfo_firstUploaded.TabIndex = 5;
             // 
             // label3
@@ -256,7 +276,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_dirName.Location = new System.Drawing.Point(121, 32);
             this.tb_addonInfo_dirName.Name = "tb_addonInfo_dirName";
-            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(626, 20);
+            this.tb_addonInfo_dirName.Size = new System.Drawing.Size(618, 20);
             this.tb_addonInfo_dirName.TabIndex = 3;
             // 
             // label2
@@ -274,7 +294,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tb_addonInfo_name.Location = new System.Drawing.Point(121, 6);
             this.tb_addonInfo_name.Name = "tb_addonInfo_name";
-            this.tb_addonInfo_name.Size = new System.Drawing.Size(626, 20);
+            this.tb_addonInfo_name.Size = new System.Drawing.Size(618, 20);
             this.tb_addonInfo_name.TabIndex = 1;
             // 
             // label1
@@ -288,7 +308,7 @@
             // 
             // b_sync_checkStatus
             // 
-            this.b_sync_checkStatus.Location = new System.Drawing.Point(273, 32);
+            this.b_sync_checkStatus.Location = new System.Drawing.Point(645, 3);
             this.b_sync_checkStatus.Name = "b_sync_checkStatus";
             this.b_sync_checkStatus.Size = new System.Drawing.Size(95, 23);
             this.b_sync_checkStatus.TabIndex = 5;
@@ -297,7 +317,7 @@
             // 
             // b_sync_serverLocal
             // 
-            this.b_sync_serverLocal.Location = new System.Drawing.Point(144, 32);
+            this.b_sync_serverLocal.Location = new System.Drawing.Point(516, 3);
             this.b_sync_serverLocal.Name = "b_sync_serverLocal";
             this.b_sync_serverLocal.Size = new System.Drawing.Size(123, 23);
             this.b_sync_serverLocal.TabIndex = 4;
@@ -306,39 +326,39 @@
             // 
             // b_sync_localServer
             // 
-            this.b_sync_localServer.Location = new System.Drawing.Point(12, 32);
+            this.b_sync_localServer.Location = new System.Drawing.Point(384, 3);
             this.b_sync_localServer.Name = "b_sync_localServer";
             this.b_sync_localServer.Size = new System.Drawing.Size(126, 23);
             this.b_sync_localServer.TabIndex = 3;
             this.b_sync_localServer.Text = "Sync (Local -> Server)";
             this.b_sync_localServer.UseVisualStyleBackColor = true;
             // 
-            // b_delete
+            // b_addonInfo_delete
             // 
-            this.b_delete.Location = new System.Drawing.Point(174, 3);
-            this.b_delete.Name = "b_delete";
-            this.b_delete.Size = new System.Drawing.Size(75, 23);
-            this.b_delete.TabIndex = 2;
-            this.b_delete.Text = "Delete";
-            this.b_delete.UseVisualStyleBackColor = true;
+            this.b_addonInfo_delete.Location = new System.Drawing.Point(174, 3);
+            this.b_addonInfo_delete.Name = "b_addonInfo_delete";
+            this.b_addonInfo_delete.Size = new System.Drawing.Size(75, 23);
+            this.b_addonInfo_delete.TabIndex = 2;
+            this.b_addonInfo_delete.Text = "Delete";
+            this.b_addonInfo_delete.UseVisualStyleBackColor = true;
             // 
-            // b_edit
+            // b_addonInfo_edit
             // 
-            this.b_edit.Location = new System.Drawing.Point(93, 3);
-            this.b_edit.Name = "b_edit";
-            this.b_edit.Size = new System.Drawing.Size(75, 23);
-            this.b_edit.TabIndex = 1;
-            this.b_edit.Text = "Edit";
-            this.b_edit.UseVisualStyleBackColor = true;
+            this.b_addonInfo_edit.Location = new System.Drawing.Point(93, 3);
+            this.b_addonInfo_edit.Name = "b_addonInfo_edit";
+            this.b_addonInfo_edit.Size = new System.Drawing.Size(75, 23);
+            this.b_addonInfo_edit.TabIndex = 1;
+            this.b_addonInfo_edit.Text = "Edit";
+            this.b_addonInfo_edit.UseVisualStyleBackColor = true;
             // 
-            // b_new
+            // b_addonInfo_new
             // 
-            this.b_new.Location = new System.Drawing.Point(12, 3);
-            this.b_new.Name = "b_new";
-            this.b_new.Size = new System.Drawing.Size(75, 23);
-            this.b_new.TabIndex = 0;
-            this.b_new.Text = "New";
-            this.b_new.UseVisualStyleBackColor = true;
+            this.b_addonInfo_new.Location = new System.Drawing.Point(12, 3);
+            this.b_addonInfo_new.Name = "b_addonInfo_new";
+            this.b_addonInfo_new.Size = new System.Drawing.Size(75, 23);
+            this.b_addonInfo_new.TabIndex = 0;
+            this.b_addonInfo_new.Text = "New";
+            this.b_addonInfo_new.UseVisualStyleBackColor = true;
             // 
             // tabControl_main
             // 
@@ -348,7 +368,7 @@
             this.tabControl_main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_main.Name = "tabControl_main";
             this.tabControl_main.SelectedIndex = 0;
-            this.tabControl_main.Size = new System.Drawing.Size(1154, 332);
+            this.tabControl_main.Size = new System.Drawing.Size(1154, 398);
             this.tabControl_main.TabIndex = 1;
             // 
             // page_main_addonInfo
@@ -357,7 +377,7 @@
             this.page_main_addonInfo.Location = new System.Drawing.Point(4, 22);
             this.page_main_addonInfo.Name = "page_main_addonInfo";
             this.page_main_addonInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.page_main_addonInfo.Size = new System.Drawing.Size(1146, 306);
+            this.page_main_addonInfo.Size = new System.Drawing.Size(1146, 372);
             this.page_main_addonInfo.TabIndex = 0;
             this.page_main_addonInfo.Text = "Addons Info";
             this.page_main_addonInfo.UseVisualStyleBackColor = true;
@@ -588,8 +608,8 @@
             // splitContainer_main_log.Panel2
             // 
             this.splitContainer_main_log.Panel2.Controls.Add(this.listView_main_log);
-            this.splitContainer_main_log.Size = new System.Drawing.Size(1154, 446);
-            this.splitContainer_main_log.SplitterDistance = 332;
+            this.splitContainer_main_log.Size = new System.Drawing.Size(1154, 536);
+            this.splitContainer_main_log.SplitterDistance = 398;
             this.splitContainer_main_log.TabIndex = 2;
             // 
             // listView_main_log
@@ -601,7 +621,7 @@
             this.listView_main_log.Location = new System.Drawing.Point(0, 0);
             this.listView_main_log.MultiSelect = false;
             this.listView_main_log.Name = "listView_main_log";
-            this.listView_main_log.Size = new System.Drawing.Size(1154, 110);
+            this.listView_main_log.Size = new System.Drawing.Size(1154, 134);
             this.listView_main_log.TabIndex = 0;
             this.listView_main_log.UseCompatibleStateImageBehavior = false;
             this.listView_main_log.View = System.Windows.Forms.View.Details;
@@ -610,29 +630,31 @@
             // 
             this.columnHeader_main_log.Width = 615;
             // 
-            // label13
+            // b_addonInfo_refreshFileList
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 113);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(45, 13);
-            this.label13.TabIndex = 13;
-            this.label13.Text = "Version:";
+            this.b_addonInfo_refreshFileList.Location = new System.Drawing.Point(255, 3);
+            this.b_addonInfo_refreshFileList.Name = "b_addonInfo_refreshFileList";
+            this.b_addonInfo_refreshFileList.Size = new System.Drawing.Size(123, 23);
+            this.b_addonInfo_refreshFileList.TabIndex = 6;
+            this.b_addonInfo_refreshFileList.Text = "Refresh Addon Filelist";
+            this.b_addonInfo_refreshFileList.UseVisualStyleBackColor = true;
             // 
-            // tb_addonInfo_version
+            // listBox_addonInfo_files
             // 
-            this.tb_addonInfo_version.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.listBox_addonInfo_files.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tb_addonInfo_version.Location = new System.Drawing.Point(121, 110);
-            this.tb_addonInfo_version.Name = "tb_addonInfo_version";
-            this.tb_addonInfo_version.Size = new System.Drawing.Size(626, 20);
-            this.tb_addonInfo_version.TabIndex = 12;
+            this.listBox_addonInfo_files.FormattingEnabled = true;
+            this.listBox_addonInfo_files.Location = new System.Drawing.Point(6, 198);
+            this.listBox_addonInfo_files.Name = "listBox_addonInfo_files";
+            this.listBox_addonInfo_files.Size = new System.Drawing.Size(731, 134);
+            this.listBox_addonInfo_files.TabIndex = 14;
             // 
             // GUIMainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1154, 446);
+            this.ClientSize = new System.Drawing.Size(1154, 536);
             this.Controls.Add(this.splitContainer_main_log);
             this.MinimumSize = new System.Drawing.Size(635, 485);
             this.Name = "GUIMainView";
@@ -682,9 +704,9 @@
         private System.Windows.Forms.Button b_sync_checkStatus;
         private System.Windows.Forms.Button b_sync_serverLocal;
         private System.Windows.Forms.Button b_sync_localServer;
-        private System.Windows.Forms.Button b_delete;
-        private System.Windows.Forms.Button b_edit;
-        private System.Windows.Forms.Button b_new;
+        private System.Windows.Forms.Button b_addonInfo_delete;
+        private System.Windows.Forms.Button b_addonInfo_edit;
+        private System.Windows.Forms.Button b_addonInfo_new;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListView listView_addonList;
         private System.Windows.Forms.ColumnHeader columnHeader_main;
@@ -716,5 +738,7 @@
         private System.Windows.Forms.CheckBox checkBox_settings_enableLog;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox tb_addonInfo_version;
+        private System.Windows.Forms.Button b_addonInfo_refreshFileList;
+        private System.Windows.Forms.ListBox listBox_addonInfo_files;
     }
 }

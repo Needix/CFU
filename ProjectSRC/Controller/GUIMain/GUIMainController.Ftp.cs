@@ -12,7 +12,7 @@ using System.Net;
 
 namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
     public partial class GUIMainController {
-        private WebClient CreateServerWebClient() {
+        public WebClient CreateServerWebClient() {
             WebClient result = new WebClient();
             result.Credentials = new NetworkCredential(Model.SettingsModel.Server.Username, Model.SettingsModel.FastDL.GetDecryptedPassword());
             return result;
@@ -50,7 +50,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.Controller.GUIMain {
                 return null;
             }
         }
-        private String GetServerURI(String relative, bool inclusiveGmodSubFolder = true) {
+        public String GetServerURI(String relative, bool inclusiveGmodSubFolder = true) {
             if(inclusiveGmodSubFolder)
                 return "ftp://"+Model.SettingsModel.Server.IP_Port+"/"+GMOD_SUB_FOLDER+relative;
 

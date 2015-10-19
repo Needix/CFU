@@ -26,9 +26,10 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
         }
 
         private void RegisterCustomEvents() {
-            b_edit.Click += _controller.EditAddon;
-            b_new.Click += _controller.NewAddon;
-            b_delete.Click += _controller.DelAddon;
+            b_addonInfo_edit.Click += _controller.EditAddon;
+            b_addonInfo_new.Click += _controller.NewAddon;
+            b_addonInfo_delete.Click += _controller.DelAddon;
+            b_addonInfo_refreshFileList.Click += _controller.RefreshFileList;
 
             b_sync_localServer.Click += _controller.SyncLocalServer;
             b_sync_serverLocal.Click += _controller.SyncServerLocal;
@@ -42,6 +43,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             tb_addonInfo_dirName.TextChanged += _controller.TB_TextChanged;
             tb_addonInfo_firstUploaded.TextChanged += _controller.TB_TextChanged;
             tb_addonInfo_lastUpdate.TextChanged += _controller.TB_TextChanged;
+            tb_addonInfo_version.TextChanged += _controller.TB_TextChanged;
             tb_settings_fastDL_ipPort.TextChanged += _controller.TB_TextChanged;
             tb_settings_fastDL_password.TextChanged += _controller.TB_TextChanged;
             tb_settings_fastDL_username.TextChanged += _controller.TB_TextChanged;
@@ -59,7 +61,7 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
         
         public void RegisterController(GUIMainController controller) {
             _controller = controller;
-            _diffView = new GUIDiffView(_controller.Model.DiffModel);
+            _diffView = new GUIDiffView(_controller.Model.DiffModel, controller);
             RegisterCustomEvents();
         }
 
@@ -83,6 +85,12 @@ namespace Custom_FTP_Uploader.ProjectSRC.GUI {
             tb_addonInfo_name.Text = model.CurrentAddonName;
             tb_addonInfo_firstUploaded.Text = model.CurrentFirstUploaded;
             tb_addonInfo_lastUpdate.Text = model.CurrentLastUpdated;
+            tb_addonInfo_version.Text = model.CurrentVersion;
+
+            listBox_addonInfo_files.Items.Clear();
+            foreach (FAF faf in model.CurrentFileList) {
+                listBox_addonInfo_files.Items.Add(faf.Name.Substring(faf.Name.IndexOf(GUIMainController.GMOD_SUB_FOLDER))); 
+            }
 
             cbox_addonInfo_addons_root.SelectedIndex = (int)model.CurrentAddonType;
             cbox_addonInfo_fastdl_workshop.SelectedIndex = (int)model.CurrentDLType;
